@@ -49,8 +49,8 @@ public class NLApi {
 		String tweetsApi = "https://api.twitter.com/1.1/search/tweets.json";
 		
 		// Adding search term, authentication, and language
-		tweetsApi += "?q=" + searchTerm;
-		System.out.println("Getting info from: " + tweetsApi + "&count=" + numTweets + "&lang=" + language);
+		tweetsApi += "?q=" + searchTerm + "&count=" + numTweets + "&lang=" + language + "&tweet_mode=extended";
+		System.out.println("Getting info from:" + tweetsApi);
 		String twitterBearer = System.getenv("TWITTER_BEARER");
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(
@@ -74,14 +74,9 @@ public class NLApi {
 		String[] tweetsArray = new String[numTweets];
 		for (int i = 0; i < numTweets; i++) {
 			JsonObject result = statuses.get(i).getAsJsonObject();
-			JsonElement tweetText = result.get("text");
-			tweetsArray[i] = tweetText.getAsString();
+			JsonElement full_text = result.get("full_text");
+			tweetsArray[i] = full_text.getAsString();
 		}
-		
-//		System.out.println("\n\nARRAY CONTENTS\n");
-//		for (String tweet : tweetsArray) {
-//			System.out.println(tweet);
-//		}
 
 		return tweetsArray;
 	}
@@ -95,14 +90,14 @@ public class NLApi {
 //		String sScore = sResult[0];
 //		String sMagnitude = sResult[1];
 //		System.out.printf("Score: %s\nMagnitude: %s", sScore, sMagnitude);
-		String searchTerm = "Covid 19";
+		String searchTerm = "%&%Y$*)#";
 		searchTerm = urlEncodeInput(searchTerm);
 		System.out.println(searchTerm);
 		
 		String[] tweets = getTweetInfo(searchTerm);
 		for (String tweet : tweets) {
 			System.out.println(tweet);
-		}
+		} // end for loop
 		System.out.println("\nDone executing");
 	}
 
