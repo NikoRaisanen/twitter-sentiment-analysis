@@ -25,13 +25,9 @@ public class NLApi {
 			// The text to analyze
 			String text = content;
 			Document doc = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
-			System.out.println(doc);
 
 			// Detects the sentiment of the text
 			Sentiment sentiment = language.analyzeSentiment(doc).getDocumentSentiment();
-			System.out.println(sentiment);
-			System.out.printf("Text: %s%n", text);
-			System.out.printf("Sentiment: %s, %s%n", sentiment.getScore(), sentiment.getMagnitude());
 			String[] sentimentArray = new String[] {Float.toString(sentiment.getScore()), Float.toString(sentiment.getMagnitude())};
 			return sentimentArray;
 		} catch (IOException e) {
@@ -39,8 +35,7 @@ public class NLApi {
 		} // end try block
 		
 		// Placeholder to satisfy return requirement
-		String[] ph = new String[] {};
-		return ph;
+		return new String[] {};
 	}
 
 	public static String[] getTweetInfo(String searchTerm) {
@@ -90,13 +85,14 @@ public class NLApi {
 //		String sScore = sResult[0];
 //		String sMagnitude = sResult[1];
 //		System.out.printf("Score: %s\nMagnitude: %s", sScore, sMagnitude);
-		String searchTerm = "%&%Y$*)#";
+		String searchTerm = "tragic";
 		searchTerm = urlEncodeInput(searchTerm);
 		System.out.println(searchTerm);
 		
 		String[] tweets = getTweetInfo(searchTerm);
 		for (String tweet : tweets) {
-			System.out.println(tweet);
+			String[] sResult = getSentiment(tweet);
+			System.out.printf("**************\nTweet: %s\nSentiment: %s\nMagnitude: %s\n", tweet, sResult[0], sResult[1]);
 		} // end for loop
 		System.out.println("\nDone executing");
 	}
