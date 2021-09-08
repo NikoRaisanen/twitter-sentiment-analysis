@@ -10,10 +10,13 @@ import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.*;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NLApi {
 
@@ -41,10 +44,13 @@ public class NLApi {
 	}
 
 	public static String[] getTweetInfo(String searchTerm) {
+		int numTweets = 5;
+		String language = "en";
 		String tweetsApi = "https://api.twitter.com/1.1/search/tweets.json";
-		// Adding search term and authentication
-		tweetsApi += "?q=" + searchTerm + "&count=1";
-		System.out.println("Getting info from: " + tweetsApi);
+		
+		// Adding search term, authentication, and language
+		tweetsApi += "?q=" + searchTerm;
+		System.out.println("Getting info from: " + tweetsApi + "&count=" + numTweets + "&lang=" + language);
 		String twitterBearer = System.getenv("TWITTER_BEARER");
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(
@@ -56,34 +62,48 @@ public class NLApi {
 		HttpResponse<String> response = null;
 		try {
 		response = client.send(request, BodyHandlers.ofString());
-		System.out.print("Response body: " + response.body());
-		System.out.println("\nResponse.toString(): " + response.toString());
-		System.out.println("response.request(): " + response.request());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// Converting twitter response from string to JSON
 		Gson gson = new Gson();
 		JsonObject body = gson.fromJson(response.body(), JsonObject.class);
 		JsonArray statuses = body.get("statuses").getAsJsonArray();
-		JsonObject firstResult = statuses.get(0).getAsJsonObject();
-		JsonElement tweetText = firstResult.get("text");
 		
+		String[] tweetsArray = new String[numTweets];
+		for (int i = 0; i < numTweets; i++) {
+			JsonObject result = statuses.get(i).getAsJsonObject();
+			JsonElement tweetText = result.get("text");
+			tweetsArray[i] = tweetText.getAsString();
+		}
 		
-		
-		System.out.printf("Here is json formatted tweet text: %s", tweetText.getAsString());
-		// Below 2 lines are placeholder
-		String[] ph = new String[] { "a", "b" };
-		return ph;
-	}
+//		System.out.println("\n\nARRAY CONTENTS\n");
+//		for (String tweet : tweetsArray) {
+//			System.out.println(tweet);
+//		}
 
+		return tweetsArray;
+	}
+	
+	private static String urlEncodeInput(String input) {
+		return URLEncoder.encode(input);
+	}
+	
 	public static void main(String[] args) {
 //		String[] sResult = getSentiment("test I am very happy :D");
 //		String sScore = sResult[0];
 //		String sMagnitude = sResult[1];
 //		System.out.printf("Score: %s\nMagnitude: %s", sScore, sMagnitude);
-		getTweetInfo("Spiderman");
-		System.out.print("\nDone executing");
+		String searchTerm = "Covid 19";
+		searchTerm = urlEncodeInput(searchTerm);
+		System.out.println(searchTerm);
+		
+		String[] tweets = getTweetInfo(searchTerm);
+		for (String tweet : tweets) {
+			System.out.println(tweet);
+		}
+		System.out.println("\nDone executing");
 	}
 
 }
