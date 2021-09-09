@@ -16,7 +16,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NLApi {
 
@@ -72,7 +74,6 @@ public class NLApi {
 			JsonElement full_text = result.get("full_text");
 			tweetsArray[i] = full_text.getAsString();
 		}
-
 		return tweetsArray;
 	}
 	
@@ -80,20 +81,59 @@ public class NLApi {
 		return URLEncoder.encode(input);
 	}
 	
-	public static void main(String[] args) {
-//		String[] sResult = getSentiment("test I am very happy :D");
-//		String sScore = sResult[0];
-//		String sMagnitude = sResult[1];
-//		System.out.printf("Score: %s\nMagnitude: %s", sScore, sMagnitude);
-		String searchTerm = "tragic";
-		searchTerm = urlEncodeInput(searchTerm);
-		System.out.println(searchTerm);
-		
-		String[] tweets = getTweetInfo(searchTerm);
+	public static HashMap<String, String> calculateWeightedSentiment(String[] tweets) {
+		Map <Integer, String[]> map = new HashMap<Integer, String[]>();
+		float totalMagnitude = (float) 0.0;
+		float weightedScore = (float) 0.0;
+		int counter = 0;
+		// Populate hashmap with relevant information and get totalMagnitude
 		for (String tweet : tweets) {
 			String[] sResult = getSentiment(tweet);
-			System.out.printf("**************\nTweet: %s\nSentiment: %s\nMagnitude: %s\n", tweet, sResult[0], sResult[1]);
-		} // end for loop
+			map.put(counter, sResult);
+			totalMagnitude += Float.parseFloat(sResult[1]);
+			counter++;
+		} // end for loop	
+		// for loop to calculate weighted sentiment
+		// Specific weightedScore = (Specific sScore) * [(Specific sMagnitude)/(sum of sMagnitudes)]
+		// weightedScore = sum of all specific weightedScores
+		for (int i = 0; i < map.size(); i++) {
+			String[] sResult = map.get(i);
+			float sScore = Float.parseFloat(sResult[0]);
+			float sMagnitude = Float.parseFloat(sResult[1]);
+			weightedScore += (sScore * (sMagnitude / totalMagnitude));
+		}
+		String sentiment = "";
+		if (weightedScore >= 0.1 && weightedScore < 0.4)
+			sentiment = "Slightly Positive";
+		else if (weightedScore >= 0.4)
+			sentiment = "Very Positive";
+		else if (weightedScore <= -0.1 && weightedScore > -0.4)
+			sentiment = "Slightly Negative";
+		else if (weightedScore <= -0.4)
+			sentiment = "Very Negative";
+		else
+			sentiment = "Neutral";
+		
+		System.out.println(map);
+		System.out.println("Size of hashmap:" + map.size());
+		System.out.println("Total magnitude: " + totalMagnitude);
+		System.out.println("Weighted score is: " + weightedScore);
+		System.out.println("The sentiment is: " + sentiment);
+		
+		HashMap <String, String> sMap = new HashMap<String, String>();
+		sMap.put("sentiment", sentiment);
+		sMap.put("weightedScore", Float.toString(weightedScore));
+		// Return array of strings with weighted score and stringified sentiment
+		return sMap;
+	}
+	
+	public static void main(String[] args) {
+		String searchTerm = "covid 19";
+		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
+
+		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
+		HashMap<String, String> results = calculateWeightedSentiment(tweets);
+		System.out.printf("\n%s returns a %s sentiment on Twitter with a score of %s", searchTerm, results.get("sentiment"), results.get("weightedScore"));
 		System.out.println("\nDone executing");
 	}
 
