@@ -34,7 +34,10 @@ public class NLApi {
 			return sentimentArray;
 		} catch (IOException e) {
 			e.printStackTrace();
-		} // end try block
+		} catch (Exception e) {
+			System.out.println("GENERAL EXCEPTION CATCH EXECUTED... SKIPPING THIS ITERATION");
+			return null;
+		}
 		
 		// Placeholder to satisfy return requirement
 		return new String[] {};
@@ -68,11 +71,16 @@ public class NLApi {
 		JsonObject body = gson.fromJson(response.body(), JsonObject.class);
 		JsonArray statuses = body.get("statuses").getAsJsonArray();
 		
-		String[] tweetsArray = new String[numTweets];
-		for (int i = 0; i < numTweets; i++) {
+		String[] tweetsArray = new String[statuses.size()];
+		for (int i = 0; i < statuses.size(); i++) {
+			try {
 			JsonObject result = statuses.get(i).getAsJsonObject();
 			JsonElement full_text = result.get("full_text");
 			tweetsArray[i] = full_text.getAsString();
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("Out of bounds executed, continuing...");
+				continue;
+			}
 		}
 		return tweetsArray;
 	}
@@ -88,10 +96,12 @@ public class NLApi {
 		int counter = 0;
 		// Populate hashmap with relevant information and get totalMagnitude
 		for (String tweet : tweets) {
-			String[] sResult = getSentiment(tweet);
-			map.put(counter, sResult);
-			totalMagnitude += Float.parseFloat(sResult[1]);
-			counter++;
+			if (tweet != null) {
+				String[] sResult = getSentiment(tweet);
+				map.put(counter, sResult);
+				totalMagnitude += Float.parseFloat(sResult[1]);
+				counter++;
+			}
 		} // end for loop	
 		// for loop to calculate weighted sentiment
 		// Specific weightedScore = (Specific sScore) * [(Specific sMagnitude)/(sum of sMagnitudes)]
@@ -128,7 +138,7 @@ public class NLApi {
 	}
 	
 	public static void main(String[] args) {
-		String searchTerm = "covid 19";
+		String searchTerm = "depress";
 		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
 
 		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
