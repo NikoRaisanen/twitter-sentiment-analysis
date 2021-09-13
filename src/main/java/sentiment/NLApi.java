@@ -113,13 +113,13 @@ public class NLApi {
 			weightedScore += (sScore * (sMagnitude / totalMagnitude));
 		}
 		String sentiment = "";
-		if (weightedScore >= 0.1 && weightedScore < 0.4)
+		if (weightedScore >= 0.1 && weightedScore < 0.3)
 			sentiment = "Slightly Positive";
-		else if (weightedScore >= 0.4)
+		else if (weightedScore >= 0.3)
 			sentiment = "Very Positive";
-		else if (weightedScore <= -0.1 && weightedScore > -0.4)
+		else if (weightedScore <= -0.1 && weightedScore > -0.3)
 			sentiment = "Slightly Negative";
-		else if (weightedScore <= -0.4)
+		else if (weightedScore <= -0.3)
 			sentiment = "Very Negative";
 		else
 			sentiment = "Neutral";
@@ -138,7 +138,7 @@ public class NLApi {
 	}
 	
 	public static void main(String[] args) {
-		String searchTerm = "depress";
+		String searchTerm = "depressed";
 		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
 
 		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
