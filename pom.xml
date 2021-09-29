@@ -7,8 +7,29 @@
   <description>sentiment analysis for twitter, using gcp natural language api</description>
   <properties>
      <maven.compiler.source>1.8</maven.compiler.source>
-     <maven.compiler.target>1.8</maven.compiler.target>
+     <maven.compiler.target>1.8</maven.compiler.target>     
   </properties>
+
+<build>
+	<plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+     </plugins>
+</build>
 
 <!--  Using libraries-bom to manage versions.
 See https://github.com/GoogleCloudPlatform/cloud-opensource-java/wiki/The-Google-Cloud-Platform-Libraries-BOM -->
@@ -43,6 +64,22 @@ See https://github.com/GoogleCloudPlatform/cloud-opensource-java/wiki/The-Google
     <version>5.8.0-RC1</version>
     <scope>test</scope>
 </dependency>
+
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-lambda-java-core</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-lambda-java-events</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-lambda-java-log4j2</artifactId>
+      <version>1.2.0</version>
+    </dependency>
   
 </dependencies>
   

@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +90,8 @@ public class NLApi {
 		return URLEncoder.encode(input);
 	}
 	
-	public static HashMap<String, String> calculateWeightedSentiment(String[] tweets) {
+	// Function that returns score and stringified result
+	public static String calculateWeightedSentiment(String[] tweets) {
 		Map <Integer, String[]> map = new HashMap<Integer, String[]>();
 		float totalMagnitude = (float) 0.0;
 		float weightedScore = (float) 0.0;
@@ -103,6 +105,7 @@ public class NLApi {
 				counter++;
 			}
 		} // end for loop	
+		
 		// for loop to calculate weighted sentiment
 		// Specific weightedScore = (Specific sScore) * [(Specific sMagnitude)/(sum of sMagnitudes)]
 		// weightedScore = sum of all specific weightedScores
@@ -112,6 +115,9 @@ public class NLApi {
 			float sMagnitude = Float.parseFloat(sResult[1]);
 			weightedScore += (sScore * (sMagnitude / totalMagnitude));
 		}
+		
+		DecimalFormat df = new DecimalFormat("#.00");
+		weightedScore = Float.parseFloat(df.format(weightedScore));
 		String sentiment = "";
 		if (weightedScore >= 0.1 && weightedScore < 0.3)
 			sentiment = "Slightly Positive";
@@ -134,16 +140,18 @@ public class NLApi {
 		sMap.put("sentiment", sentiment);
 		sMap.put("weightedScore", Float.toString(weightedScore));
 		// Return array of strings with weighted score and stringified sentiment
-		return sMap;
+		Gson gson = new Gson();
+		String data = gson.toJson(sMap);
+		System.out.println(data);
+		return data;
 	}
 	
 	public static void main(String[] args) {
-		String searchTerm = "depressed";
+		String searchTerm = "Corona";
 		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
 
 		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
-		HashMap<String, String> results = calculateWeightedSentiment(tweets);
-		System.out.printf("\n%s returns a %s sentiment on Twitter with a score of %s", searchTerm, results.get("sentiment"), results.get("weightedScore"));
+		String results = calculateWeightedSentiment(tweets);
 		System.out.println("\nDone executing");
 	}
 
