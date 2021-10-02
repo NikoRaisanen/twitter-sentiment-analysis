@@ -42,6 +42,7 @@ public class NLApi {
 
 	// Handler for Lambda calls
 	public String myHandler(String input, Context context) {
+		get_aws_s3();
 		LambdaLogger logger = context.getLogger();
 		logger.log("Beginning sentiment analysis lookup for term: " + input);
 		String searchTerm = input;
@@ -57,7 +58,6 @@ public class NLApi {
 		try {
 			CredentialsProvider credentialsProvider;
 			credentialsProvider = FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("google_credentials.json")));
-//			GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("google_credentials.json"));
 			LanguageServiceSettings.Builder languageServiceSettingsBuilder = LanguageServiceSettings.newBuilder();
 			LanguageServiceSettings languageServiceSettings = languageServiceSettingsBuilder.setCredentialsProvider(credentialsProvider).build();
 			LanguageServiceClient language = LanguageServiceClient.create(languageServiceSettings);
@@ -218,14 +218,14 @@ public class NLApi {
 		
 	}
 	
-	public static void main(String[] args) {
-		get_aws_s3();
-		String searchTerm = "Baby";
-		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
-
-		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
-		String results = calculateWeightedSentiment(tweets);
-		System.out.println("\nDone executing");
-	}
+//	public static void main(String[] args) {
+//		get_aws_s3();
+//		String searchTerm = "Sad";
+//		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
+//
+//		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
+//		String results = calculateWeightedSentiment(tweets);
+//		System.out.println("\nDone executing");
+//	}
 
 }
