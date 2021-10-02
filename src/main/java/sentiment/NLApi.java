@@ -1,6 +1,12 @@
 package sentiment;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 //Imports the Google Cloud client library
 import com.google.cloud.language.v1.Document;
@@ -16,13 +22,38 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import org.apache.logging.log4j.core.util.FileUtils;
+import org.apache.logging.log4j.core.util.IOUtils;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.S3Object;
+
 
 public class NLApi {
 
+	// Handler for Lambda calls
+	public String myHandler(String input, Context context) {
+		LambdaLogger logger = context.getLogger();
+		logger.log("Beginning sentiment analysis lookup for term: " + input);
+		String searchTerm = input;
+		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
+
+		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
+		String results = calculateWeightedSentiment(tweets);
+		logger.log("COMPLETED lookup for term: " + input);
+		return results;		
+	}
+	
 	public static String[] getSentiment(String content) {
 		try (LanguageServiceClient language = LanguageServiceClient.create()) {
 			// The text to analyze
@@ -146,7 +177,43 @@ public class NLApi {
 		return data;
 	}
 	
+	public static void get_aws_s3() {
+			AWSCredentials credentials = new BasicAWSCredentials(
+					System.getenv("AWSAccessKeyId"), 
+					System.getenv("AWSSecretKey")
+			);
+			AmazonS3 s3client = AmazonS3ClientBuilder
+					  .standard()
+					  .withCredentials(new AWSStaticCredentialsProvider(credentials))
+					  .withRegion(Regions.US_EAST_2)
+					  .build();
+			
+			try {
+				S3Object s3Object = s3client.getObject("google-credentials-lambda", "sentiment-analysis-325217-2a91abcd5e6d.json");
+				InputStream in = new BufferedInputStream(s3Object.getObjectContent());
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				byte[] buf = new byte[1024];
+				int n = 0;
+				while ((n=in.read(buf)) != -1) {
+					out.write(buf, 0, n);
+				}
+				out.close();
+				in.close();
+				byte[] response = out.toByteArray();
+				
+				// Save this byte array to file locally
+				FileOutputStream fos = new FileOutputStream("google_credentials.json");
+				fos.write(response);
+				fos.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} // end try block
+		
+	}
+	
 	public static void main(String[] args) {
+		get_aws_s3();
 		String searchTerm = "Corona";
 		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
 
