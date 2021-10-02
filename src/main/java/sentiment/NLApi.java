@@ -2,16 +2,16 @@ package sentiment;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 //Imports the Google Cloud client library
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.LanguageServiceSettings;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.*;
 
@@ -25,9 +25,6 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.core.util.FileUtils;
-import org.apache.logging.log4j.core.util.IOUtils;
-
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -37,7 +34,9 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
-
+import com.google.api.gax.core.CredentialsProvider;
+import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 
 public class NLApi {
 
@@ -55,7 +54,13 @@ public class NLApi {
 	}
 	
 	public static String[] getSentiment(String content) {
-		try (LanguageServiceClient language = LanguageServiceClient.create()) {
+		try {
+			CredentialsProvider credentialsProvider;
+			credentialsProvider = FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("google_credentials.json")));
+//			GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("google_credentials.json"));
+			LanguageServiceSettings.Builder languageServiceSettingsBuilder = LanguageServiceSettings.newBuilder();
+			LanguageServiceSettings languageServiceSettings = languageServiceSettingsBuilder.setCredentialsProvider(credentialsProvider).build();
+			LanguageServiceClient language = LanguageServiceClient.create(languageServiceSettings);
 			// The text to analyze
 			String text = content;
 			Document doc = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
@@ -201,11 +206,12 @@ public class NLApi {
 				in.close();
 				byte[] response = out.toByteArray();
 				
-				// Save this byte array to file locally
+				// Save this json file
 				FileOutputStream fos = new FileOutputStream("google_credentials.json");
 				fos.write(response);
+				System.out.println(fos);
 				fos.close();
-			
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		} // end try block
@@ -214,7 +220,7 @@ public class NLApi {
 	
 	public static void main(String[] args) {
 		get_aws_s3();
-		String searchTerm = "Corona";
+		String searchTerm = "Baby";
 		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
 
 		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
