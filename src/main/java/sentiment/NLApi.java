@@ -2,6 +2,7 @@ package sentiment;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class NLApi {
 	public static String[] getSentiment(String content) {
 		try {
 			CredentialsProvider credentialsProvider;
-			credentialsProvider = FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("google_credentials.json")));
+			credentialsProvider = FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(new FileInputStream("/tmp/" + "google_credentials.json")));
 			LanguageServiceSettings.Builder languageServiceSettingsBuilder = LanguageServiceSettings.newBuilder();
 			LanguageServiceSettings languageServiceSettings = languageServiceSettingsBuilder.setCredentialsProvider(credentialsProvider).build();
 			LanguageServiceClient language = LanguageServiceClient.create(languageServiceSettings);
@@ -207,7 +208,7 @@ public class NLApi {
 				byte[] response = out.toByteArray();
 				
 				// Save this json file
-				FileOutputStream fos = new FileOutputStream("google_credentials.json");
+				FileOutputStream fos = new FileOutputStream("/tmp/" + "google_credentials.json");
 				fos.write(response);
 				System.out.println(fos);
 				fos.close();
