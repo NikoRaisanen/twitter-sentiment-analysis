@@ -23,6 +23,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
@@ -40,19 +42,31 @@ import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 
 public class NLApi {
-
+	public static class Response {
+		int statusCode = 200;
+		String message = "This is my message!";
+		
+		public Response(int statusCode, String message) {
+			this.statusCode = statusCode;
+			this.message = message;
+		}
+	}
 	// Handler for Lambda calls
-	public String myHandler(String input, Context context) {
+	public APIGatewayProxyResponseEvent handleRequest(Map<String, Object> event, Context context) {
 		get_aws_s3();
 		LambdaLogger logger = context.getLogger();
-		logger.log("Beginning sentiment analysis lookup for term: " + input);
-		String searchTerm = input;
+		System.out.println(event.toString());
+		logger.log("Beginning sentiment analysis lookup for term: " + "PLACEHOLDER");
+		String searchTerm = "PLACEHOLDER";
 		System.out.println("Gathering sentiment based on the following search term: " + searchTerm);
 
 		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
 		String results = calculateWeightedSentiment(tweets);
-		logger.log("COMPLETED lookup for term: " + input);
-		return results;		
+		logger.log("COMPLETED lookup for term: " + "PLACEHOLDER");
+		return new APIGatewayProxyResponseEvent()
+				.withStatusCode(200)
+				.withHeaders(Collections.EMPTY_MAP)
+				.withBody("Hello! This is my body created with apigateway");
 	}
 	
 	public static String[] getSentiment(String content) {
@@ -174,13 +188,16 @@ public class NLApi {
 		System.out.println("The sentiment is: " + sentiment);
 		
 		HashMap <String, String> sMap = new HashMap<String, String>();
-		sMap.put("sentiment", sentiment);
-		sMap.put("weightedScore", Float.toString(weightedScore));
+		HashMap <String, String> apiData = new HashMap<String, String>();
+		apiData.put("sentiment", sentiment);
+		apiData.put("weightedScore", Float.toString(weightedScore));
 		// Return array of strings with weighted score and stringified sentiment
+		Response responseObj = new Response(200, "yoyo");
+		System.out.println(responseObj);
 		Gson gson = new Gson();
-		String data = gson.toJson(sMap);
-		System.out.println(data);
-		return data;
+		String fResponse = gson.toJson(responseObj);
+		System.out.println(fResponse.toString());
+		return fResponse.toString();
 	}
 	
 	public static void get_aws_s3() {
