@@ -56,10 +56,14 @@ public class NLApi {
 		String[] tweets = getTweetInfo(urlEncodeInput(searchTerm));
 		String results = calculateWeightedSentiment(tweets);
 		logger.log("COMPLETED lookup for term: " + searchTerm);
+		Map <String, String> headers  = new HashMap<String, String>();
+		headers.put("Access-Control-Allow-Origin", "*");
+		headers.put("Content-Type", "application/json");
 		return new APIGatewayProxyResponseEvent()
 				.withStatusCode(200)
 				.withHeaders(Collections.EMPTY_MAP)
-				.withBody(results);
+				.withBody(results)
+				.withHeaders(headers);
 	}
 	
 	public static String[] getSentiment(String content) {
@@ -140,7 +144,8 @@ public class NLApi {
 		float totalMagnitude = (float) 0.0;
 		float weightedScore = (float) 0.0;
 		int counter = 0;
-		// Populate hashmap with relevant information and get totalMagnitude
+		
+		// Populate hashmap with tweet info and calculate totalMagnitude
 		for (String tweet : tweets) {
 			if (tweet != null) {
 				String[] sResult = getSentiment(tweet);
