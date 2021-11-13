@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://html5-templates.com/" />
+    <title>HTML Template - Full Page Slider Navigation</title>
+    <meta name="description" content="A brief page description">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="script.js"></script>
+    <script src="progressbar.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+              sectionsColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff'],
+              anchors: ['firstPage', 'secondPage', 'thirdPage'],
+              menu: '#menu',
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+
+<ul id="menu">
+    <li data-menuanchor="firstPage" class="active"><a href="#firstPage">First</a></li>
+    <li data-menuanchor="secondPage"><a href="#secondPage">Second</a></li>
+    <li data-menuanchor="thirdPage"><a href="#thirdPage">Third</a></li>
+</ul>
+<div id="fullpage">
+    <div class="section " id="section0">
+        <h1>Twitter Sentiment Analysis</h1>
+        <p>Enter a search term</p>
+        <p class="introimg">&darr;&#9636;&darr;</p>
+        <br>
+        <!-- <form action="#secondPage"> -->
+            <input type="text" id="searchTerm" name="searchTerm"><br><br>
+            <input id="submitbutton" type="submit" value="Search">
+        <!-- </form>  -->
+    </div>
+    <div class="section" id="section1">
+        <div class="slide active" id="slide1">
+            <div class="intro">
+                <h1 id="resultsheader">Results</h1>
+                <div id="container"></div>
+                <!-- <p>Scroll down</p> -->
+            </div>
+            <div id=resultsDiv>
+                <p id=results>
+                    Results go in this box
+                </p>
+            </div>
+        </div>
+        <!-- <div class="slide active" id="slide2">
+            <h1>Slide 2</h1>
+			<p>You can also scroll left or right on this screen</p>
+        </div>
+        <div class="slide" id="slide3">
+            <h1>Slide 3</h1>
+        </div> -->
+
+    </div>
+    <div class="section" id="section2">
+        <div class="intro">
+            <h1>Most polarizing</h1>
+            <p>You reached the bottom of the page</p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
