@@ -43,6 +43,13 @@ function createResultGraph(fill, ms) {
 }
 // Working asynchronous function to get json data
 $(document).on('click', '#submitbutton', async function () {
+    // Remove results of previous search
+    $('#container').empty();
+    $('#results').empty();
+    // Disable button and show loading animation
+    $("#submitbutton").attr("disabled", true);
+    $('#loading').show()
+
     var score = 0.0;
     searchTerm = document.getElementById("searchTerm").value;
     const fetchPromise = fetch("https://tfam7175f5.execute-api.us-east-2.amazonaws.com/Dev/sentiment?searchTerm=" + searchTerm);
@@ -60,61 +67,12 @@ $(document).on('click', '#submitbutton', async function () {
         document.getElementById('results').innerText = displayString;
         percentage = sentiment_to_percentage(score)
         createResultGraph(percentage, 3000);
+
+        // Enable button and remove loading animation
+        $("#submitbutton").attr("disabled", false);
+        $('#loading').hide();
     });
 });
-// async function get_sentiment() {
-//     var score = 0.0;
-//     searchTerm = document.getElementById("searchTerm").value;
-//     const fetchPromise = fetch("https://tfam7175f5.execute-api.us-east-2.amazonaws.com/Dev/sentiment?searchTerm=" + searchTerm);
-//     fetchPromise.then(response => {
-//         return response.json();
-//     }).then(jsonResponse => {
-//         score = jsonResponse.weightedScore
-//         displayString = "The people of twitter have a " + jsonResponse.sentiment + " sentiment towards " + "\"" + searchTerm + "\"" + " with a score of " + score;
-//         console.log(displayString);
-        
-//         // document.getElementById('secondPage').scrollIntoView({
-//         //     behavior: 'smooth'
-//         // });
-//         fullpage_api.moveTo('secondPage', 1);
-//         document.getElementById('results').innerText = displayString;
-//         percentage = sentiment_to_percentage(score)
-//         createResultGraph(percentage, 3000);
-//     });
-// }
-
-
-    // var bar = new ProgressBar.SemiCircle(container, {
-    //     strokeWidth: 6,
-    //     color: '#FFEA82',
-    //     trailColor: '#eee',
-    //     trailWidth: 1,
-    //     easing: 'easeInOut',
-    //     duration: 1400,
-    //     svgStyle: null,
-    //     text: {
-    //       value: '',
-    //       alignToBottom: false
-    //     },
-    //     from: {color: '#FA4817'},
-    //     to: {color: '#34F10F'},
-    //     // Set default step function for all animate calls
-    //     step: (state, bar) => {
-    //       bar.path.setAttribute('stroke', state.color);
-    //       var value = Math.round(bar.value() * 100);
-    //       if (value === 0) {
-    //         bar.setText('');
-    //       } else {
-    //         bar.setText(value);
-    //       }
-      
-    //       bar.text.style.color = state.color;
-    //     }
-    //   });
-    //   bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-    //   bar.text.style.fontSize = '2rem';
-    //   bar.animate(0.8);  // Number from 0.0 to 1.0
-
 
 
 /* Below this line is the core functionality for fullPage.js*/

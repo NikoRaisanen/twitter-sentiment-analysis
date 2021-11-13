@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script src="script.js"></script>
     <script src="progressbar.js"></script>
     <script type="text/javascript">
@@ -34,15 +34,26 @@
 </ul>
 <div id="fullpage">
     <div class="section " id="section0">
+    <div id="tweettest">
+        <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+            <a href="https://twitter.com/ravzns/status/1459641726814105602"></a>
+            </p>
+            <a href="https://twitter.com/ravzns/status/1459641726814105602"></a>
+            </blockquote>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
         <h1>Twitter Sentiment Analysis</h1>
         <p>Enter a search term</p>
         <p class="introimg">&darr;&#9636;&darr;</p>
         <br>
-        <!-- <form action="#secondPage"> -->
+        <div id="form">
             <input type="text" id="searchTerm" name="searchTerm"><br><br>
             <input id="submitbutton" type="submit" value="Search">
-        <!-- </form>  -->
+        </div>
+        <div id="loading" class="lds-ellipsis" style="display: none;"><div></div><div></div><div></div><div></div></div>
     </div>
+
+
     <div class="section" id="section1">
         <div class="slide active" id="slide1">
             <div class="intro">
