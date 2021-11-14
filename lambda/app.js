@@ -5,7 +5,7 @@
 
 const https = require('https');
 
-function call_twitter_api(searchTerm) {
+function call_twitter_api(searchTerm, callback) {
 
     const options = {
         hostname: 'api.twitter.com',
@@ -15,7 +15,6 @@ function call_twitter_api(searchTerm) {
         headers: { authorization: process.env.TWITTER_BEARER },
     };
     
-    jsonResponse = ''
     const req = https.request(options, res => {
         var body = ''
         console.log(`statusCode: ${res.statusCode}`)
@@ -30,8 +29,7 @@ function call_twitter_api(searchTerm) {
                 console.log(`Failed with response code ${res.statusCode}`);
             }
             jsonResponse = JSON.parse(body)
-            console.log(jsonResponse.statuses[0].created_at)
-            // console.dir(jsonResponse, {depth: null, colors: true})
+            callback(jsonResponse);
         });
     });
     
@@ -44,5 +42,8 @@ function call_twitter_api(searchTerm) {
 
 } // end call_twitter_api
 
-call_twitter_api("happy to be alive")
+call_twitter_api("hello", parse_tweets)
 
+function parse_tweets(json) {
+    console.log(json)
+}
