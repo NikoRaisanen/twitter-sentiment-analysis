@@ -42,8 +42,35 @@ function call_twitter_api(searchTerm, callback) {
 
 } // end call_twitter_api
 
-call_twitter_api("hello", parse_tweets)
-
-function parse_tweets(json) {
-    console.log(json)
+function parse_tweets(jsonResponse) {
+    // console.log(jsonResponse.statuses)
+    // Info needed for each tweet:
+    // full_text
+    // id -- FORMAT: `twitter.com/anyuser/<tweetID>`
+    var tweets = {
+        0: {},
+        1: {},
+        2: {},
+        3: {},
+        4: {},
+        5: {},
+    };
+    console.log(jsonResponse.statuses.length)
+    for (var i = 0; i < jsonResponse.statuses.length; i++) {
+        console.log(jsonResponse.statuses[i].id)
+        tweets[i].id = jsonResponse.statuses[i].id
+        tweets[i].text = jsonResponse.statuses[i].text
+    }
+    // jsonResponse.statuses.forEach(function(element) {
+    //     tweets.t0 = element.id
+    //     console.log(element.id)
+    //     console.log(element.text)
+    // })
+    console.log(tweets)
 }
+
+function main() {
+    call_twitter_api("sad", parse_tweets)
+}
+
+main()
