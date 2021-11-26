@@ -5,6 +5,7 @@
 
 // const AWS = require('aws-sdk')
 const https = require('https');
+const language = require('@google-cloud/language');
 
 function call_twitter_api(searchTerm, callback) {
 
@@ -74,10 +75,10 @@ async function analyze_tweets(tweetJson, callback) {
     // console.log(`Received the following data from parse_tweets\n${JSON.stringify(tweetJson)}`);
     console.log(`passed stringified data: ${JSON.stringify(tweetJson)}`)
     console.log(`length of passed json: ${Object.keys(tweetJson).length}`)
-    const language = require('@google-cloud/language');
 
     // Establish NL API Client
-    const client = new language.LanguageServiceClient();
+    try {
+        const client = new language.LanguageServiceClient();
     var totalMagnitude = 0;
     for (var i = 0; i < Object.keys(tweetJson).length; i++) {
         const document = {
@@ -90,6 +91,9 @@ async function analyze_tweets(tweetJson, callback) {
         tweetJson[i].score = sentiment.score
         tweetJson[i].magnitude = sentiment.magnitude
         totalMagnitude += sentiment.magnitude
+    } // end for loop
+    } catch(e) {
+        console.log(e)
     }
 
     console.log(`now that everything is said and done, here is the new json object:\n${JSON.stringify(tweetJson)}`);
@@ -135,6 +139,16 @@ function craft_response(finalSentiment, impactTweet) {
 
     console.log(`final data:\n${returnData.finalSentiment}\n${returnData.impactId}`)
 
+    var response = {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": "Hey this is my body text lol"
+    } // end response
+    return response
+
+
 }
 
 /* Flow:
@@ -146,24 +160,13 @@ function craft_response(finalSentiment, impactTweet) {
 function main() {
    call_twitter_api("genocide", parse_tweets)
 }
-main()
+// main()
 
 
-// exports.handler = async function lambda_func(event, context, returnData) {
-//     var response = {
-//         "statusCode": 200,
-//         "headers": {
-//             "Content-Type": "application/json"
-//         },
-//         "body": "Hey this is my body text lol"
-//     } // end response
-
-//     console.log('## ENVIRONMENT VARIABLES: ' + serialize(process.env))
-//     console.log('## CONTEXT: ' + serialize(context))
-//     console.log('## EVENT: ' + serialize(event))
-//     try {
-//       return response
-//     } catch(error) {
-//       return error
-//     } // end try
-//   } // end lambda handler
+exports.handler = function(event, context) {
+    console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env))
+    console.log('## CONTEXT: ' + JSON.stringify(context))
+    console.log('## EVENT: ' + JSON.stringify(event))
+    call_twitter_api("genocide", parse_tweets)
+    console.log("Hello, end of execution reached")
+  } // end lambda handler
