@@ -7,7 +7,7 @@
 const https = require('https');
 const language = require('@google-cloud/language');
 
-function call_twitter_api(searchTerm, callback) {
+async function call_twitter_api(searchTerm) { 
 
     const options = {
         hostname: 'api.twitter.com',
@@ -17,35 +17,45 @@ function call_twitter_api(searchTerm, callback) {
         headers: { authorization: process.env.TWITTER_BEARER },
     };
     
-    const req = https.request(options, res => {
-        var body = ''
-        console.log(`statusCode: ${res.statusCode}`)
-    
-        res.on('data', data => {
-            body = body + data
+    return new Promise(function(resolve, reject) {
+        const req = https.request(options, res => {
+            var body = ''
+            console.log(`statusCode: ${res.statusCode}`)
+        
+            res.on('data', data => {
+                body = body + data
+            });
+        
+            res.on('end', function() {
+                // console.log("Body: " + body)
+                if (res.statusCode != 200) {
+                    console.log(`Failed with response code ${res.statusCode}`);
+                    reject("PROMISE REJECTED!!!")
+                }
+                jsonResponse = JSON.parse(body)
+                // console.log(jsonResponse)
+                resolve(jsonResponse)
+            });
         });
-    
-        res.on('end', function() {
-            // console.log("Body: " + body)
-            if (res.statusCode != 200) {
-                console.log(`Failed with response code ${res.statusCode}`);
-            }
-            jsonResponse = JSON.parse(body)
-            console.log(jsonResponse)
-            callback(jsonResponse);
+        
+        req.on('error', error => {
+            console.error(error)
         });
-    });
+        req.end()
     
-    
-    
-    req.on('error', error => {
-        console.error(error)
-    });
-    req.end()
 
+    }); // end promise creation
+    // console.log(`My Promise obj: ${myPromise}`)
+    
 } // end call_twitter_api
 
-
+async function main() {
+    jsonResp = await call_twitter_api("depressed")
+    console.log(`Here is my json response:`)
+    console.log(jsonResp)
+    console.log(jsonResp.statuses.length)
+}
+main()
 function parse_tweets(jsonResponse, callback) {
     callback = analyze_tweets
     // console.log(jsonResponse.statuses)
@@ -157,16 +167,13 @@ function craft_response(finalSentiment, impactTweet) {
     analyze_tweets ->
     calculate_sentiment ->
 */
-function main() {
-   call_twitter_api("genocide", parse_tweets)
-}
 // main()
 
 
-exports.handler = function(event, context) {
-    console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env))
-    console.log('## CONTEXT: ' + JSON.stringify(context))
-    console.log('## EVENT: ' + JSON.stringify(event))
-    call_twitter_api("genocide", parse_tweets)
-    console.log("Hello, end of execution reached")
-  } // end lambda handler
+// exports.handler = function(event, context) {
+//     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env))
+//     console.log('## CONTEXT: ' + JSON.stringify(context))
+//     console.log('## EVENT: ' + JSON.stringify(event))
+//     result = await call_twitter_api("genocide", parse_tweets)
+//     console.log("Hello, end of execution reached")
+//   } // end lambda handler
