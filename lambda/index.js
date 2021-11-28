@@ -50,38 +50,38 @@ async function call_twitter_api(searchTerm) {
 } // end call_twitter_api
 
 async function main() {
-    jsonResp = await call_twitter_api("depressed")
-    console.log(`Here is my json response:`)
-    console.log(jsonResp)
-    console.log(jsonResp.statuses.length)
+    jsonResp = await call_twitter_api("MFN")
+    tweets = await parse_tweets(jsonResp)
+    console.log(tweets)
+    result = await analyze_tweets(tweets)
+    sentimentResults = calculate_sentiment(result)
+    sentiment = sentimentResults[0]
+    selectedTweet = sentimentResults[1]
+    responseObj = craft_response(sentiment, selectedTweet)
+    console.log("printing responseObj:")
+    console.log(responseObj)
+    
+
 }
 main()
-function parse_tweets(jsonResponse, callback) {
-    callback = analyze_tweets
+
+async function parse_tweets(jsonResponse) {
     // console.log(jsonResponse.statuses)
     // Info needed for each tweet:
     // full_text
     // id -- FORMAT: `twitter.com/anyuser/<tweetID>`
-    var tweets = {
-        0: {},
-        1: {},
-        2: {},
-        3: {},
-        4: {},
-        5: {},
-    };
-    // console.log(jsonResponse.statuses.length)
+    var tweets = {};
+    console.log(jsonResponse.statuses.length)
     for (var i = 0; i < jsonResponse.statuses.length; i++) {
+        tweets[i] = {}
         tweets[i].id = jsonResponse.statuses[i].id_str
         tweets[i].text = jsonResponse.statuses[i].text
     }
-    console.log(tweets)
-    callback(tweets)
+    return tweets
 }
 
 
-async function analyze_tweets(tweetJson, callback) {
-    callback = calculate_sentiment;
+async function analyze_tweets(tweetJson) {
     // console.log(`Received the following data from parse_tweets\n${JSON.stringify(tweetJson)}`);
     console.log(`passed stringified data: ${JSON.stringify(tweetJson)}`)
     console.log(`length of passed json: ${Object.keys(tweetJson).length}`)
@@ -106,23 +106,27 @@ async function analyze_tweets(tweetJson, callback) {
         console.log(e)
     }
 
-    console.log(`now that everything is said and done, here is the new json object:\n${JSON.stringify(tweetJson)}`);
-    console.log(`total magnitude: ${totalMagnitude}`)
+    // console.log(`now that everything is said and done, here is the new json object:\n${JSON.stringify(tweetJson)}`);
+    // console.log(`total magnitude: ${totalMagnitude}`)
+    tweetJson.totalMagnitude = totalMagnitude
 
+    // console.log("Here is my json object before returning:")
+    // console.log(tweetJson)
     // calculate sentiment
-    return callback(tweetJson, totalMagnitude);
+    return tweetJson
 }
 
 
-function calculate_sentiment(tweetJson, totalMagnitude) {
-    callback = craft_response
+function calculate_sentiment(tweetJson) {
     // Calculate weighted sentiment...
     // For each: 
     // tweetJson[i].score * ( tweetJson[i].magnitude / totalMagnitude )
+    var totalMagnitude = tweetJson.totalMagnitude
     var finalSentiment = 0;
     maxWeight = 0
     var impactTweet = {}
-    for (var i = 0; i < Object.keys(tweetJson).length; i++) {
+    // iterate until len of keys - 1 to exclude "total magnitude"
+    for (var i = 0; i < Object.keys(tweetJson).length - 1; i++) {
         tweetWeight = tweetJson[i].score * (tweetJson[i].magnitude / totalMagnitude);
         finalSentiment += tweetWeight
 
@@ -135,7 +139,7 @@ function calculate_sentiment(tweetJson, totalMagnitude) {
     }
     finalSentiment = Math.round(finalSentiment * 100) / 100
     // console.log(`Here is the most impactful tweet obj ${JSON.stringify(impactTweet)}`)
-    callback(finalSentiment, impactTweet.data)
+    return [finalSentiment, impactTweet.data]
 }
 
 function craft_response(finalSentiment, impactTweet) {
@@ -144,17 +148,17 @@ function craft_response(finalSentiment, impactTweet) {
     // json object with final sentiment score + highest impact tweet
     returnData = {
         'finalSentiment': finalSentiment,
-        'impactId': impactTweet.id
+        'selectedTweet': impactTweet.id
     }
 
-    console.log(`final data:\n${returnData.finalSentiment}\n${returnData.impactId}`)
+    console.log(`final data:\n${returnData.finalSentiment}\n${returnData.selectedTweet}`)
 
     var response = {
         "statusCode": 200,
         "headers": {
             "Content-Type": "application/json"
         },
-        "body": "Hey this is my body text lol"
+        "body": returnData
     } // end response
     return response
 
