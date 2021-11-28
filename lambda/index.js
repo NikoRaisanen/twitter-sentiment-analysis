@@ -117,7 +117,8 @@ async function craft_response(finalSentiment, impactTweet) {
     var response = {
         "statusCode": 200,
         "headers": {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
         },
         "body": JSON.stringify(returnData)
     } // end response

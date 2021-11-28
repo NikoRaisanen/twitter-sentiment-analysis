@@ -52,12 +52,12 @@ $(document).on('click', '#submitbutton', async function () {
 
     var score = 0.0;
     searchTerm = document.getElementById("searchTerm").value;
-    const fetchPromise = fetch("https://tfam7175f5.execute-api.us-east-2.amazonaws.com/Dev/sentiment?searchTerm=" + searchTerm);
+    const fetchPromise = fetch("https://92ctge8hl1.execute-api.us-east-2.amazonaws.com/prod/sentiment-analysis?searchTerm=" + searchTerm);
     fetchPromise.then(response => {
         return response.json();
     }).then(jsonResponse => {
-        score = jsonResponse.weightedScore
-        displayString = "The people of twitter have a " + jsonResponse.sentiment + " sentiment towards " + "\"" + searchTerm + "\"" + " with a score of " + score;
+        score = jsonResponse.finalSentiment
+        displayString = "Twitter gives " + "\"" + searchTerm + "\"" + " a score of " + score;
         console.log(displayString);
         
         // document.getElementById('secondPage').scrollIntoView({
