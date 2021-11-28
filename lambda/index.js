@@ -49,22 +49,6 @@ async function call_twitter_api(searchTerm) {
     
 } // end call_twitter_api
 
-async function main() {
-    jsonResp = await call_twitter_api("MFN")
-    tweets = await parse_tweets(jsonResp)
-    console.log(tweets)
-    result = await analyze_tweets(tweets)
-    sentimentResults = calculate_sentiment(result)
-    sentiment = sentimentResults[0]
-    selectedTweet = sentimentResults[1]
-    responseObj = craft_response(sentiment, selectedTweet)
-    console.log("printing responseObj:")
-    console.log(responseObj)
-    
-
-}
-main()
-
 async function parse_tweets(jsonResponse) {
     // console.log(jsonResponse.statuses)
     // Info needed for each tweet:
@@ -164,6 +148,21 @@ function craft_response(finalSentiment, impactTweet) {
 
 
 }
+async function main() {
+    jsonResp = await call_twitter_api("MF")
+    tweets = await parse_tweets(jsonResp)
+    console.log(tweets)
+    result = await analyze_tweets(tweets)
+    sentimentResults = await calculate_sentiment(result)
+    sentiment = await sentimentResults[0]
+    selectedTweet = await sentimentResults[1]
+    responseObj = await craft_response(sentiment, selectedTweet)
+    console.log("printing responseObj:")
+    console.log(responseObj)
+    
+
+}
+// main()
 
 /* Flow:
     call_twitter api ->
@@ -171,13 +170,24 @@ function craft_response(finalSentiment, impactTweet) {
     analyze_tweets ->
     calculate_sentiment ->
 */
-// main()
 
 
-// exports.handler = function(event, context) {
-//     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env))
-//     console.log('## CONTEXT: ' + JSON.stringify(context))
-//     console.log('## EVENT: ' + JSON.stringify(event))
-//     result = await call_twitter_api("genocide", parse_tweets)
-//     console.log("Hello, end of execution reached")
-//   } // end lambda handler
+exports.handler = async function(event, context) {
+    console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env))
+    console.log('## CONTEXT: ' + JSON.stringify(context))
+    console.log('## EVENT: ' + JSON.stringify(event))
+    console.log("Hello, end of execution reached")
+
+    jsonResp = await call_twitter_api("sad")
+    tweets = await parse_tweets(jsonResp)
+    console.log(tweets)
+    result = await analyze_tweets(tweets)
+    sentimentResults = calculate_sentiment(result)
+    console.log(sentimentResults)
+    sentiment = sentimentResults[0]
+    selectedTweet = sentimentResults[1]
+    responseObj = craft_response(sentiment, selectedTweet)
+    console.log("printing responseObj:")
+    console.log(responseObj)
+    return responseObj
+  } // end lambda handler
