@@ -101,7 +101,7 @@ async function analyze_tweets(tweetJson) {
 }
 
 
-function calculate_sentiment(tweetJson) {
+async function calculate_sentiment(tweetJson) {
     // Calculate weighted sentiment...
     // For each: 
     // tweetJson[i].score * ( tweetJson[i].magnitude / totalMagnitude )
@@ -126,7 +126,7 @@ function calculate_sentiment(tweetJson) {
     return [finalSentiment, impactTweet.data]
 }
 
-function craft_response(finalSentiment, impactTweet) {
+async function craft_response(finalSentiment, impactTweet) {
     console.log("***** CRAFT_RESPONSE BLOCK *****")
     console.log(`Final sentiment: ${finalSentiment}\nImpact Tweet: ${impactTweet.id}`)
     // json object with final sentiment score + highest impact tweet
@@ -142,26 +142,26 @@ function craft_response(finalSentiment, impactTweet) {
         "headers": {
             "Content-Type": "application/json"
         },
-        "body": returnData
+        "body": JSON.stringify(returnData)
     } // end response
     return response
 
 
 }
-async function main() {
-    jsonResp = await call_twitter_api("MF")
-    tweets = await parse_tweets(jsonResp)
-    console.log(tweets)
-    result = await analyze_tweets(tweets)
-    sentimentResults = await calculate_sentiment(result)
-    sentiment = await sentimentResults[0]
-    selectedTweet = await sentimentResults[1]
-    responseObj = await craft_response(sentiment, selectedTweet)
-    console.log("printing responseObj:")
-    console.log(responseObj)
+// async function main() {
+//     jsonResp = await call_twitter_api("MF")
+//     tweets = await parse_tweets(jsonResp)
+//     console.log(tweets)
+//     result = await analyze_tweets(tweets)
+//     sentimentResults = await calculate_sentiment(result)
+//     sentiment = await sentimentResults[0]
+//     selectedTweet = await sentimentResults[1]
+//     responseObj = await craft_response(sentiment, selectedTweet)
+//     console.log("printing responseObj:")
+//     console.log(responseObj)
     
 
-}
+// }
 // main()
 
 /* Flow:
@@ -176,17 +176,16 @@ exports.handler = async function(event, context) {
     console.log('## ENVIRONMENT VARIABLES: ' + JSON.stringify(process.env))
     console.log('## CONTEXT: ' + JSON.stringify(context))
     console.log('## EVENT: ' + JSON.stringify(event))
-    console.log("Hello, end of execution reached")
 
     jsonResp = await call_twitter_api("sad")
     tweets = await parse_tweets(jsonResp)
     console.log(tweets)
     result = await analyze_tweets(tweets)
-    sentimentResults = calculate_sentiment(result)
+    sentimentResults = await calculate_sentiment(result)
     console.log(sentimentResults)
     sentiment = sentimentResults[0]
     selectedTweet = sentimentResults[1]
-    responseObj = craft_response(sentiment, selectedTweet)
+    responseObj = await craft_response(sentiment, selectedTweet)
     console.log("printing responseObj:")
     console.log(responseObj)
     return responseObj
