@@ -1,7 +1,18 @@
 // Working function to modify DOM with result
-function changeResult(result) {
-    var current = document.getElementById("results");
-    current.innerHTML = result;
+function stringify_result(score) {
+    var result;
+    if (score >= 0.3) {
+        result = "Very Positive";
+    } else if (score >= 0.1) {
+        result = "Slightly Positive";
+    } else if (score <= -0.3) {
+        result = "Very Negative";
+    } else if (score <= -0.1) {
+        result = "Slightly Negative"
+    } else {
+        result = "Neutral"
+    }
+    return result;
 }
 
 function sentiment_to_percentage(score) {
@@ -57,7 +68,7 @@ $(document).on('click', '#submitbutton', async function () {
         return response.json();
     }).then(jsonResponse => {
         score = jsonResponse.finalSentiment
-        displayString = "Twitter gives " + "\"" + searchTerm + "\"" + " a score of " + score;
+        displayString = stringify_result(score)
         console.log(displayString);
         
         // document.getElementById('secondPage').scrollIntoView({
@@ -67,10 +78,23 @@ $(document).on('click', '#submitbutton', async function () {
         document.getElementById('results').innerText = displayString;
         percentage = sentiment_to_percentage(score)
         createResultGraph(percentage, 3000);
+        tweetLink = "https://twitter.com/anyuser/status/" + jsonResponse.selectedTweet
+        console.log(`This is the tweetlink: ${tweetLink}`)
+        document.getElementById("selectedTweetLink").href = tweetLink
 
         // Enable button and remove loading animation
         $("#submitbutton").attr("disabled", false);
         $('#loading').hide();
+
+        var bq = document.createElement("blockquote")
+        bq.setAttribute("class", "twitter-tweet")
+        var anch = document.createElement("a")
+        anch.setAttribute("href", tweetLink)
+        bq.appendChild(anch)
+        twttr.widgets.load(bq)
+        document.getElementById("selectedTweetDiv").appendChild(bq)
+        // <blockquote class="twitter-tweet"><a id="selectedTweetLink"></a></blockquote>
+        //         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     });
 });
 
