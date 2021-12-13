@@ -57,6 +57,8 @@ $(document).on('click', '#submitbutton', async function () {
     // Remove results of previous search
     $('#container').empty();
     $('#results').empty();
+    $('#selectedTweetDiv').empty(); 
+    // $('.twitter-tweet').empty();
     // Disable button and show loading animation
     $("#submitbutton").attr("disabled", true);
     $('#loading').show()
@@ -80,12 +82,13 @@ $(document).on('click', '#submitbutton', async function () {
         createResultGraph(percentage, 3000);
         tweetLink = "https://twitter.com/anyuser/status/" + jsonResponse.selectedTweet
         console.log(`This is the tweetlink: ${tweetLink}`)
-        document.getElementById("selectedTweetLink").href = tweetLink
+        // document.getElementById("selectedTweetLink").href = tweetLink
 
         // Enable button and remove loading animation
         $("#submitbutton").attr("disabled", false);
         $('#loading').hide();
-
+    
+        // Dynamically load twitter embed
         var bq = document.createElement("blockquote")
         bq.setAttribute("class", "twitter-tweet")
         var anch = document.createElement("a")
