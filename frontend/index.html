@@ -46,8 +46,10 @@
             <input id="submitbutton" type="submit" value="Search">
         </div>
         <div id="loading" class="lds-ellipsis" style="display: none;"><div></div><div></div><div></div><div></div></div>
+        <div class="mylink">
+            <a target="_blank" href="https://github.com/NikoRaisanen/twitter-sentiment-analysis">How does this work?</a>  
+        </div>
     </div>
-
 
     <div class="section" id="section1">
         <div class="slide active" id="slide1">
@@ -57,17 +59,20 @@
                 <!-- <p>Scroll down</p> -->
             </div>
             <div id=resultsDiv>
-                <p id=results>
-                </p>
+                <p id=results></p>
+                <p id="stringresult"></p>
             </div>
             <div class="p2text">
-                <p id="scrollDown">
+                <!-- <p id="scrollDown">
                     Scroll down to see the selected tweet
-                </p>
-                <p id="text">
-                    &#8681;&nbsp;&#8681;&nbsp;&#8681;
+                </p> -->
+                <p id="arrow">
+                    <!-- &#8681;&nbsp;&#8681;&nbsp;&#8681; -->
                 </p>
             </div>
+            <div class="mylink">
+                <a target="_blank" href="https://github.com/NikoRaisanen/twitter-sentiment-analysis">How does this work?</a>  
+              </div>
         
 
 
@@ -82,12 +87,15 @@
     </div>
     <div class="section" id="section2">
         <div class="intro">
-            <h1>Selected Tweet</h1>
+            <h1>Featured Tweet</h1>
             <div id="selectedTweetDiv">
                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
-            <p>You reached the bottom of the page</p>
+            <p id="featuredtweet"></p>
         </div>
+        <div class="mylink">
+            <a target="_blank" href="https://github.com/NikoRaisanen/twitter-sentiment-analysis">How does this work?</a>  
+          </div>
     </div>
 </div>
 

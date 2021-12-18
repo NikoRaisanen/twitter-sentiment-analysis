@@ -616,3 +616,39 @@ p.introimg {
     opacity: 0;
     transition: 5s opacity;
 }
+
+#section2 h1 {
+    padding-bottom: 100px;
+}
+
+.mylink{
+    position: absolute;
+    z-index: 150;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    text-align: right;
+    padding: .6rem;
+  }
+  
+  .mylink a{
+    font-family: Calibri;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    opacity: .7;
+    transition: opacity .3s;
+    text-decoration: none
+  }
+  .mylink a:hover{
+    opacity: 1
+  }
+
+#stringresult {
+    font-size: 1.5em;
+    font-style: italic;
+    padding: 50px 0px;
+}
+
+#featuredtweet {
+    padding: 25px 0px;
+}

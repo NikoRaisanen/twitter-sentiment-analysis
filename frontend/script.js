@@ -1,18 +1,24 @@
 // Working function to modify DOM with result
-function stringify_result(score) {
-    var result;
+function stringify_result(score, searchTerm) {
+    var keyword;
+    var statement;
     if (score >= 0.3) {
-        result = "Very Positive";
+        keyword = "Very Positive";
+        statement = `Looks like the people of Twitter are quite fond of ${searchTerm}`;
     } else if (score >= 0.1) {
-        result = "Slightly Positive";
+        keyword = "Slightly Positive";
+        statement = `Looks like the people of Twitter kind of like ${searchTerm}`;
     } else if (score <= -0.3) {
-        result = "Very Negative";
+        keyword = "Very Negative";
+        statement = `Looks like the people of Twitter are repulsed by ${searchTerm}`;
     } else if (score <= -0.1) {
-        result = "Slightly Negative"
+        keyword = "Slightly Negative";
+        statement = `Looks like the people of Twitter have a distaste for ${searchTerm}`;
     } else {
-        result = "Neutral"
+        keyword = "Neutral";
+        statement = `Looks like the people of Twitter are indifferent about ${searchTerm}`
     }
-    return result;
+    return [keyword, statement];
 }
 
 function sentiment_to_percentage(score) {
@@ -70,7 +76,9 @@ $(document).on('click', '#submitbutton', async function () {
         return response.json();
     }).then(jsonResponse => {
         score = jsonResponse.finalSentiment
-        displayString = stringify_result(score)
+        funcRes = stringify_result(score, searchTerm)
+        displayString = funcRes[0];
+        displayStatement = funcRes[1];
         console.log(displayString);
         
         // document.getElementById('secondPage').scrollIntoView({
@@ -78,6 +86,7 @@ $(document).on('click', '#submitbutton', async function () {
         // });
         $.fn.fullpage.moveTo('secondPage', 1);
         document.getElementById('results').innerText = displayString;
+        document.getElementById('stringresult').innerText = displayStatement;
         percentage = sentiment_to_percentage(score)
         createResultGraph(percentage, 3000);
         tweetLink = "https://twitter.com/anyuser/status/" + jsonResponse.selectedTweet
@@ -98,7 +107,8 @@ $(document).on('click', '#submitbutton', async function () {
         twttr.widgets.load(bq)
         document.getElementById("selectedTweetDiv").appendChild(bq)
         show_animated_text()
-        document.getElementById('scrollDown').style.opacity = '1';
+        // document.getElementById('scrollDown').style.opacity = '1';
+        document.getElementById('featuredtweet').innerText = `This is the tweet that elicits the strongest emotion for "${searchTerm}"`
         // <blockquote class="twitter-tweet"><a id="selectedTweetLink"></a></blockquote>
         //         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     });
@@ -106,7 +116,8 @@ $(document).on('click', '#submitbutton', async function () {
 
 /* JS FOR ANIMATED TEXT */
 function show_animated_text() {
-    var text = document.getElementById('text');
+    var text = document.getElementById('arrow');
+    text.innerHTML = '&#8681;&nbsp;&#8681;&nbsp;&#8681;'
     var newDom = '';
     var animationDelay = 6;
 
