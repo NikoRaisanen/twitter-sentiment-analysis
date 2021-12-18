@@ -488,9 +488,10 @@ p.introimg {
 } */
 
 #container {
+    padding-top: 50px;
     margin: auto;
-    width: 200px;
-    height: 100px;
+    width: 350px;
+    height: 175px;
   }
 
 #resultsheader {
@@ -646,9 +647,13 @@ p.introimg {
 #stringresult {
     font-size: 1.5em;
     font-style: italic;
-    padding: 50px 0px;
+    padding-top: 100px;
 }
 
 #featuredtweet {
     padding: 25px 0px;
+}
+
+.p2text {
+    padding: 100px 0px;
 }
