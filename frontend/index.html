@@ -30,11 +30,11 @@
 <body>
 
 
-<ul id="menu">
+<!-- <ul id="menu">
     <li data-menuanchor="firstPage" class="active"><a href="#firstPage">First</a></li>
     <li data-menuanchor="secondPage"><a href="#secondPage">Second</a></li>
     <li data-menuanchor="thirdPage"><a href="#thirdPage">Third</a></li>
-</ul>
+</ul> -->
 <div id="fullpage">
     <div class="section " id="section0">
         <h1>Twitter Sentiment Analysis</h1>
@@ -52,24 +52,40 @@
     <div class="section" id="section1">
         <div class="slide active" id="slide1">
             <div class="intro">
-                <h1 id="resultsheader">Score</h1>
+                <h1 id="resultsheader">Result</h1>
                 <div id="container"></div>
                 <!-- <p>Scroll down</p> -->
             </div>
             <div id=resultsDiv>
                 <p id=results>
-                    Results go in this box
                 </p>
             </div>
-            <div id="selectedTweetDiv">
-                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div class="p2text">
+                <p id="scrollDown">
+                    Scroll down to see the selected tweet
+                </p>
+                <p id="text">
+                    &#8681;&nbsp;&#8681;&nbsp;&#8681;
+                </p>
             </div>
+        
+
+
+
+
+
+            <!-- <div id="selectedTweetDiv">
+                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div> -->
         </div>
         
     </div>
     <div class="section" id="section2">
         <div class="intro">
-            <h1>Most polarizing</h1>
+            <h1>Selected Tweet</h1>
+            <div id="selectedTweetDiv">
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
             <p>You reached the bottom of the page</p>
         </div>
     </div>

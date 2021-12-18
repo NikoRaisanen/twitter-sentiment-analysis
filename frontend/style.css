@@ -568,7 +568,51 @@ p.introimg {
     }
 }
 
-.twitter-tweet-rendered {
+.twitter-tweet {
     margin-left: auto;
     margin-right: auto;
+}
+
+
+/* CSS FOR ANIMATED TEXT */
+.center{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* p{
+    width: 70%;
+    font-size: 30px;
+    display: block;
+    text-align: center;
+} */
+
+.char{
+    font-size: 60px;
+    height: 60px;
+    animation: an 3s ease-out 50 both;
+    display: inline-block;
+}
+
+@keyframes an{
+    from {
+        opacity: 0.7;
+        transform: perspective(500px) translate3d(0px, -20px, 0px) rotate3d(1, -1, 0, 0deg);
+    }
+    30% {
+        opacity: 1;
+        transform: perspective(500px) translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 0.7;
+        transform: perspective(500px) translate3d(0px, -20px, 0px) rotate3d(1, -1, 0, 0deg);
+    }
+}
+
+#scrollDown {
+    opacity: 0;
+    transition: 5s opacity;
 }

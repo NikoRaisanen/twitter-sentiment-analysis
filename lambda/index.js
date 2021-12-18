@@ -5,7 +5,7 @@ async function call_twitter_api(searchTerm) {
     const options = {
         hostname: 'api.twitter.com',
         port: 443,
-        path: `/1.1/search/tweets.json?count=6&lang=en&tweetmode=extended&q=${encodeURIComponent(searchTerm)}`,
+        path: `/1.1/search/tweets.json?count=10&lang=en&result_type=mixed&include_entities=false&q=${encodeURIComponent(searchTerm)}`,
         method: 'GET',
         headers: { authorization: process.env.TWITTER_BEARER },
     };

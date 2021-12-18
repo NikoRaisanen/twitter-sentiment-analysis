@@ -34,7 +34,7 @@ function createResultGraph(fill, ms) {
           alignToBottom: false
         },
         from: {color: '#FA4817'},
-        to: {color: '#34F10F'},
+        to: {color: '#24a90a'},
         // Set default step function for all animate calls
         step: (state, bar) => {
           bar.path.setAttribute('stroke', state.color);
@@ -93,14 +93,36 @@ $(document).on('click', '#submitbutton', async function () {
         bq.setAttribute("class", "twitter-tweet")
         var anch = document.createElement("a")
         anch.setAttribute("href", tweetLink)
+        // anch.setAttribute("data-height", "600")
         bq.appendChild(anch)
         twttr.widgets.load(bq)
         document.getElementById("selectedTweetDiv").appendChild(bq)
+        show_animated_text()
+        document.getElementById('scrollDown').style.opacity = '1';
         // <blockquote class="twitter-tweet"><a id="selectedTweetLink"></a></blockquote>
         //         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     });
 });
 
+/* JS FOR ANIMATED TEXT */
+function show_animated_text() {
+    var text = document.getElementById('text');
+    var newDom = '';
+    var animationDelay = 6;
+
+    for(let i = 0; i < text.innerText.length; i++)
+    {
+        newDom += '<span class="char">' + (text.innerText[i] == ' ' ? '&nbsp;' : text.innerText[i])+ '</span>';
+    }
+
+    text.innerHTML = newDom;
+    var length = text.children.length;
+
+    for(let i = 0; i < length; i++)
+    {
+        text.children[i].style['animation-delay'] = animationDelay * i + 'ms';
+    }
+}
 
 /* Below this line is the core functionality for fullPage.js*/
 /*!
