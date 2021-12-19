@@ -312,48 +312,6 @@ p {
 .section{
 	text-align:center;
 }
-#menu li {
-	display:inline-block;
-	margin: 10px;
-	color: #000;
-	background:#fff;
-	background: rgba(255,255,255, 0.5);
-	-webkit-border-radius: 10px;
-            border-radius: 10px;
-}
-#menu li.active{
-	background:#666;
-	background: rgba(0,0,0, 0.5);
-	color: #fff;
-}
-#menu li a{
-	text-decoration:none;
-	color: #000;
-}
-#menu li.active a:hover{
-	color: #000;
-}
-#menu li:hover{
-	background: rgba(255,255,255, 0.8);
-}
-#menu li a,
-#menu li.active a{
-	padding: 9px 18px;
-	display:block;
-}
-#menu li.active a{
-	color: #fff;
-}
-#menu{
-	position:fixed;
-	top:0;
-	left:0;
-	height: 40px;
-	z-index: 70;
-	width: 100%;
-	padding: 0;
-	margin:0;
-}
 .twitter-share-button{
 	position: fixed;
 	z-index: 99;
@@ -476,17 +434,8 @@ p.introimg {
     line-height: 1em;
 }
 
-/* Drawing borders for dev purposes
-#section1 {
-    border: 5px solid red;
-}
-#slide1 {
-    border: 5px solid black;
-} */
-/* #resultsDiv {
-    background-color: white;
-} */
 
+/* container for sentiment graph */
 #container {
     padding-top: 50px;
     margin: auto;
@@ -498,14 +447,6 @@ p.introimg {
     margin-bottom: 100px;
 }
 
-/* #tweet1,#tweet2,#tweet3 {
-    display: inline-block;
-    max-height: 445px;
-} */
-
-/* #tweetsdiv {
-    height: 100px;
-} */
 /* CSS to create loading animation */
 .lds-ellipsis {
     display: inline-block;
@@ -583,21 +524,12 @@ p.introimg {
     justify-content: center;
     align-items: center;
 }
-
-/* p{
-    width: 70%;
-    font-size: 30px;
-    display: block;
-    text-align: center;
-} */
-
 .char{
     font-size: 60px;
     height: 60px;
     animation: an 3s ease-out 50 both;
     display: inline-block;
 }
-
 @keyframes an{
     from {
         opacity: 0.7;
@@ -612,16 +544,13 @@ p.introimg {
         transform: perspective(500px) translate3d(0px, -20px, 0px) rotate3d(1, -1, 0, 0deg);
     }
 }
-
 #scrollDown {
     opacity: 0;
     transition: 5s opacity;
 }
-
 #section2 h1 {
     padding-bottom: 100px;
 }
-
 .mylink{
     position: absolute;
     z-index: 150;
@@ -631,7 +560,6 @@ p.introimg {
     text-align: right;
     padding: .6rem;
   }
-  
   .mylink a{
     font-family: Calibri;
     color: #fff;
@@ -643,7 +571,6 @@ p.introimg {
   .mylink a:hover{
     opacity: 1
   }
-
 #stringresult {
     font-size: 1.5em;
     font-style: italic;
@@ -651,24 +578,15 @@ p.introimg {
     padding-left: 20px;
     padding-right: 20px;
 }
-
 #featuredtweet {
     padding: 50px 0px;
 }
-
 .p2text {
     padding: 100px 0px;
 }
-
 #form {
     padding: 30px 0px;
 }
-
-/* #submitbutton {
-    font-size: 0.9rem;
-    padding: 6px 10px;
-} */
-
 input {
     border: 1px solid black;
     border-radius: 4px;
@@ -678,7 +596,6 @@ input {
     font-size: 0.9rem;
     padding: 6px 10px;
 }
-
 input:disabled {
     border: 0px;
 }
