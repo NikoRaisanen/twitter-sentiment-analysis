@@ -657,3 +657,26 @@ p.introimg {
 .p2text {
     padding: 100px 0px;
 }
+
+#form {
+    padding: 30px 0px;
+}
+
+/* #submitbutton {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+} */
+
+input {
+    border: 1px solid black;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+}
+
+input:disabled {
+    border: 0px;
+}
