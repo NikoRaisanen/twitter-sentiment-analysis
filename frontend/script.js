@@ -61,6 +61,14 @@ function createResultGraph(fill, ms) {
 
 // asynchronous function to get json data from lambda
 $(document).on('click', '#submitbutton', async function () {
+    var score = 0.0;
+    searchTerm = document.getElementById("searchTerm").value;
+    searchType = document.querySelector('input[name="buttonGroup"]:checked').value;
+    if (searchTerm == '') {
+        alert("Define a search term")
+        return;
+    }
+    console.log(searchType)
     // Remove results of previous search
     $('#container').empty();
     $('#results').empty();
@@ -69,8 +77,6 @@ $(document).on('click', '#submitbutton', async function () {
     $("#submitbutton").attr("disabled", true);
     $('#loading').show()
 
-    var score = 0.0;
-    searchTerm = document.getElementById("searchTerm").value;
     // Converted api url to unicode to minimize automated spam requests
     const fetchPromise = fetch(`\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0039\u0032\u0063\u0074\u0067\u0065\u0038\u0068\u006c\u0031\u002e\u0065\u0078\u0065\u0063\u0075\u0074\u0065\u002d\u0061\u0070\u0069\u002e\u0075\u0073\u002d\u0065\u0061\u0073\u0074\u002d\u0032\u002e\u0061\u006d\u0061\u007a\u006f\u006e\u0061\u0077\u0073\u002e\u0063\u006f\u006d\u002f\u0070\u0072\u006f\u0064\u002f\u0073\u0065\u006e\u0074\u0069\u006d\u0065\u006e\u0074\u002d\u0061\u006e\u0061\u006c\u0079\u0073\u0069\u0073\u003f\u0073\u0065\u0061\u0072\u0063\u0068\u0054\u0065\u0072\u006d\u003d${searchTerm}`);
     fetchPromise.then(response => {

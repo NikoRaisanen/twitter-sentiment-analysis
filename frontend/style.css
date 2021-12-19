@@ -596,6 +596,35 @@ input {
     font-size: 0.9rem;
     padding: 6px 10px;
 }
+#form p {
+    font-size: 1.5rem;
+    color: rgb(56, 56, 56);
+}
+
 input:disabled {
     border: 0px;
+}
+
+input[type='radio'][name='buttonGroup'] { display:none; }
+label {
+  display: inline-block;
+  color: #000;
+  font-size: 0.8rem;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 50px;
+  background-color: whitesmoke;
+  text-align:center;
+}
+
+input[type='radio'][name='buttonGroup']:checked + label {
+    border: 3px solid black;
+    border-radius: 4px;
+}
+input[type='radio'][name='buttonGroup']:hover + label {
+    /* background-color:#a0a0a0; */
+    /* border-color: rgb(18, 170, 39); */
+    border: 2px solid black;
+    border-radius: 4px;
 }
