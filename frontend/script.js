@@ -1,4 +1,3 @@
-// Working function to modify DOM with result
 function stringify_result(score, searchTerm) {
     var keyword;
     var statement;
@@ -16,7 +15,7 @@ function stringify_result(score, searchTerm) {
         statement = `Looks like the people of Twitter aren't fans of "${searchTerm}"...`;
     } else {
         keyword = "Neutral";
-        statement = `Looks like the people of Twitter are indifferent about "${searchTerm}"...`
+        statement = `Looks like the people of Twitter are indifferent about "${searchTerm}"...`;
     }
     return [keyword, statement];
 }
@@ -26,6 +25,7 @@ function sentiment_to_percentage(score) {
     percentage = 0.50 + (score / 2)
     return percentage;
 }
+
 function createResultGraph(fill, ms) {
     var bar = new ProgressBar.SemiCircle(container, {
         strokeWidth: 6,
@@ -58,13 +58,13 @@ function createResultGraph(fill, ms) {
       bar.text.style.fontSize = '2rem';
       bar.animate(fill);
 }
-// Working asynchronous function to get json data
+
+// asynchronous function to get json data from lambda
 $(document).on('click', '#submitbutton', async function () {
     // Remove results of previous search
     $('#container').empty();
     $('#results').empty();
     $('#selectedTweetDiv').empty(); 
-    // $('.twitter-tweet').empty();
     // Disable button and show loading animation
     $("#submitbutton").attr("disabled", true);
     $('#loading').show()
@@ -72,7 +72,7 @@ $(document).on('click', '#submitbutton', async function () {
     var score = 0.0;
     searchTerm = document.getElementById("searchTerm").value;
     // Converted api url to unicode to minimize automated spam requests
-    const fetchPromise = fetch("\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0039\u0032\u0063\u0074\u0067\u0065\u0038\u0068\u006c\u0031\u002e\u0065\u0078\u0065\u0063\u0075\u0074\u0065\u002d\u0061\u0070\u0069\u002e\u0075\u0073\u002d\u0065\u0061\u0073\u0074\u002d\u0032\u002e\u0061\u006d\u0061\u007a\u006f\u006e\u0061\u0077\u0073\u002e\u0063\u006f\u006d\u002f\u0070\u0072\u006f\u0064\u002f\u0073\u0065\u006e\u0074\u0069\u006d\u0065\u006e\u0074\u002d\u0061\u006e\u0061\u006c\u0079\u0073\u0069\u0073\u003f\u0073\u0065\u0061\u0072\u0063\u0068\u0054\u0065\u0072\u006d\u003d" + searchTerm);
+    const fetchPromise = fetch(`\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0039\u0032\u0063\u0074\u0067\u0065\u0038\u0068\u006c\u0031\u002e\u0065\u0078\u0065\u0063\u0075\u0074\u0065\u002d\u0061\u0070\u0069\u002e\u0075\u0073\u002d\u0065\u0061\u0073\u0074\u002d\u0032\u002e\u0061\u006d\u0061\u007a\u006f\u006e\u0061\u0077\u0073\u002e\u0063\u006f\u006d\u002f\u0070\u0072\u006f\u0064\u002f\u0073\u0065\u006e\u0074\u0069\u006d\u0065\u006e\u0074\u002d\u0061\u006e\u0061\u006c\u0079\u0073\u0069\u0073\u003f\u0073\u0065\u0061\u0072\u0063\u0068\u0054\u0065\u0072\u006d\u003d${searchTerm}`);
     fetchPromise.then(response => {
         return response.json();
     }).then(jsonResponse => {
@@ -80,19 +80,12 @@ $(document).on('click', '#submitbutton', async function () {
         funcRes = stringify_result(score, searchTerm)
         displayString = funcRes[0];
         displayStatement = funcRes[1];
-        console.log(displayString);
-        
-        // document.getElementById('secondPage').scrollIntoView({
-        //     behavior: 'smooth'
-        // });
         $.fn.fullpage.moveTo('secondPage', 1);
         document.getElementById('results').innerText = displayString;
         document.getElementById('stringresult').innerText = displayStatement;
-        percentage = sentiment_to_percentage(score)
+        percentage = sentiment_to_percentage(score);
         createResultGraph(percentage, 3000);
-        tweetLink = "https://twitter.com/anyuser/status/" + jsonResponse.selectedTweet
-        console.log(`This is the tweetlink: ${tweetLink}`)
-        // document.getElementById("selectedTweetLink").href = tweetLink
+        tweetLink = "https://twitter.com/anyuser/status/" + jsonResponse.selectedTweet;
 
         // Enable button and remove loading animation
         $("#submitbutton").attr("disabled", false);
@@ -103,22 +96,18 @@ $(document).on('click', '#submitbutton', async function () {
         bq.setAttribute("class", "twitter-tweet")
         var anch = document.createElement("a")
         anch.setAttribute("href", tweetLink)
-        // anch.setAttribute("data-height", "600")
         bq.appendChild(anch)
         twttr.widgets.load(bq)
         document.getElementById("selectedTweetDiv").appendChild(bq)
         show_animated_text()
-        // document.getElementById('scrollDown').style.opacity = '1';
         document.getElementById('featuredtweet').innerText = `This is the tweet that elicits the strongest emotion for "${searchTerm}"`
-        // <blockquote class="twitter-tweet"><a id="selectedTweetLink"></a></blockquote>
-        //         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     });
 });
 
-/* JS FOR ANIMATED TEXT */
+/* page 2 animated text */
 function show_animated_text() {
     var text = document.getElementById('arrow');
-    text.innerHTML = '&#8681;&nbsp;&#8681;&nbsp;&#8681;'
+    text.innerHTML = '&#8681;&nbsp;&#8681;&nbsp;&#8681;';
     var newDom = '';
     var animationDelay = 6;
 
@@ -135,6 +124,7 @@ function show_animated_text() {
         text.children[i].style['animation-delay'] = animationDelay * i + 'ms';
     }
 }
+
 
 /* Below this line is the core functionality for fullPage.js*/
 /*!
