@@ -648,6 +648,8 @@ p.introimg {
     font-size: 1.5em;
     font-style: italic;
     padding-top: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #featuredtweet {
