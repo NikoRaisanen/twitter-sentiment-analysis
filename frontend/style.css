@@ -599,6 +599,8 @@ input {
 #form p {
     font-size: 1.5rem;
     color: rgb(56, 56, 56);
+    text-decoration: underline;
+    text-underline-position: under;
 }
 
 input:disabled {
