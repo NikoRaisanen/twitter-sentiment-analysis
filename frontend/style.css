@@ -607,7 +607,9 @@ input:disabled {
     border: 0px;
 }
 
-input[type='radio'][name='buttonGroup'] { display:none; }
+input[type='radio'][name='buttonGroup'] {
+    display:none;
+}
 label {
   display: inline-block;
   color: #000;

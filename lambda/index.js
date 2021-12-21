@@ -1,11 +1,11 @@
 const https = require('https');
 const language = require('@google-cloud/language');
 
-async function call_twitter_api(searchTerm) { 
+async function call_twitter_api(searchTerm, searchType) { 
     const options = {
         hostname: 'api.twitter.com',
         port: 443,
-        path: `/1.1/search/tweets.json?count=10&lang=en&result_type=mixed&include_entities=false&q=${encodeURIComponent(searchTerm)}`,
+        path: `/1.1/search/tweets.json?count=10&lang=en&result_type=${searchType}&include_entities=false&q=${encodeURIComponent(searchTerm)}`,
         method: 'GET',
         headers: { authorization: process.env.TWITTER_BEARER },
     };
@@ -130,8 +130,9 @@ exports.handler = async function(event, context) {
     console.log('## CONTEXT: ' + JSON.stringify(context))
     console.log('## EVENT: ' + JSON.stringify(event))
     console.log(`Here is the detected searchTerm:\n${event.queryStringParameters.searchTerm}`)
+    console.log(`Here is the detected searchType:\n${event.queryStringParameters.searchType}`)
 
-    jsonResp = await call_twitter_api(event.queryStringParameters.searchTerm)
+    jsonResp = await call_twitter_api(event.queryStringParameters.searchTerm, event.queryStringParameters.searchType)
     tweets = await parse_tweets(jsonResp)
     console.log(tweets)
     result = await analyze_tweets(tweets)

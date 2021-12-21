@@ -102,11 +102,16 @@ $(document).on('click', '#submitbutton', async function () {
         bq.setAttribute("class", "twitter-tweet")
         var anch = document.createElement("a")
         anch.setAttribute("href", tweetLink)
+        anch.setAttribute("data-height", "600")
         bq.appendChild(anch)
         twttr.widgets.load(bq)
         document.getElementById("selectedTweetDiv").appendChild(bq)
         show_animated_text()
         document.getElementById('featuredtweet').innerText = `This is the tweet that elicits the strongest emotion for "${searchTerm}"`
+    }).catch(err => {
+        alert("Search term does not yield enough tweet data to return accurate results\n\nTry again :)")
+        $("#submitbutton").attr("disabled", false);
+        $('#loading').hide();
     });
 });
 
