@@ -581,6 +581,15 @@ p.introimg {
 #featuredtweet {
     padding: 50px 0px;
 }
+#selectedTweetDiv {
+    max-height: 80vh;
+    width: auto;
+    display: inline-block;
+    overflow: scroll;
+}
+#selectedTweetDiv::-webkit-scrollbar { 
+    display: none; 
+    }
 .p2text {
     padding: 100px 0px;
 }

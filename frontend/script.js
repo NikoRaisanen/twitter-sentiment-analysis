@@ -98,11 +98,11 @@ $(document).on('click', '#submitbutton', async function () {
         $('#loading').hide();
     
         // Dynamically load twitter embed
+        $("#ftheader").show()
         var bq = document.createElement("blockquote")
         bq.setAttribute("class", "twitter-tweet")
         var anch = document.createElement("a")
         anch.setAttribute("href", tweetLink)
-        anch.setAttribute("data-height", "600")
         bq.appendChild(anch)
         twttr.widgets.load(bq)
         document.getElementById("selectedTweetDiv").appendChild(bq)
