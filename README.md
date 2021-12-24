@@ -1,26 +1,25 @@
 # Twitter Sentiment Analysis
-See what the people of twitter think about any topic https://peopleoftwitter.com/
+See what the people of twitter think about any topic at https://peopleoftwitter.com/
 
 
-How it works
+### Search types
+- `recent` -- pull the most recent tweets for the search term
+- `popular` -- pull the most popular tweets from the last 7 days
+- `mixed` -- pull a mix of the most recent and most popular tweets
 
-Purpose
+### Architecture
+![Architecture map](.img/completeSAGraph.png)
 
-Search types
-
-Architecture
-- Route 53
-- ACM
-- S3 static hosting
-- Cloudfront
-- AWS WAF (global)
-- API gateway
-- Lambda
-- AWS Secrets Manager
-
-Security
+### Security
 - unicode api endpoint to avoid spam
 - rate limiting based on IP with AWS WAF
-- Managed secrets
+- Perform some penetration testing and come up with more for this section 
+
+To do:
+- update jquery
+- Finding #7, clickjacking
+- Force secure connection: Applications should use transport-level encryption (SSL/TLS) to protect all communications passing between the client and the server. The Strict-Transport-Security HTTP header should be used to ensure that clients refuse to access the server over an insecure connection.
+- #10. XSS filter disabled X-XSS-Protection: 1; mode=block
+
 
 
