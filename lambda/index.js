@@ -145,3 +145,19 @@ exports.handler = async function(event, context) {
     console.log(responseObj)
     return responseObj
   } // end lambda handler
+
+  async function main() {
+    jsonResp = await call_twitter_api("hi", "mixed")
+    tweets = await parse_tweets(jsonResp)
+    console.log(tweets)
+    result = await analyze_tweets(tweets)
+    sentimentResults = await calculate_sentiment(result)
+    console.log(sentimentResults)
+    sentiment = sentimentResults[0]
+    selectedTweet = sentimentResults[1]
+    responseObj = await craft_response(sentiment, selectedTweet)
+    console.log("printing responseObj:")
+    console.log(responseObj)
+    return responseObj
+  }
+  main()
