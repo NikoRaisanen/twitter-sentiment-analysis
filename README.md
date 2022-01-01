@@ -1,7 +1,6 @@
 # Twitter Sentiment Analysis
 See what the people of twitter think about any topic at https://peopleoftwitter.com/
 
-
 ### Search types
 - `recent` -- pull the most recent tweets for the search term
 - `popular` -- pull the most popular tweets from the last 7 days
@@ -11,15 +10,10 @@ See what the people of twitter think about any topic at https://peopleoftwitter.
 ![Architecture map](.img/completeSAGraph.png)
 
 ### Security
-- unicode api endpoint to avoid spam
-- rate limiting based on IP with AWS WAF
-- Perform some penetration testing and come up with more for this section 
+- unicode encoded api endpoint to hopefully reduce automated static scanning
+- rate limiting api calls based on source IP with AWS WAF
+- forcing a secure connection to peopleoftwitter.com
+- javascript `.innerHTML` never used for data that users can modify
 
-To do:
-- update jquery
-- Finding #7, clickjacking
-- Force secure connection: Applications should use transport-level encryption (SSL/TLS) to protect all communications passing between the client and the server. The Strict-Transport-Security HTTP header should be used to ensure that clients refuse to access the server over an insecure connection.
-- #10. XSS filter disabled X-XSS-Protection: 1; mode=block
-
-
+I was originally planning to create an edge lambda that would dinject security headers to the responses on peopleoftwitter.com (deployed on my cloudfront distribution). Overall, I decided not to implement it because the both the probability and impact of compromise are very low.
 
