@@ -1,0 +1,18 @@
+.headerContainer {
+    height: 350px;
+}
+
+.headerContent {
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.title {
+    font-size: 46px;
+}
+
+.smallText {
+    font-size: 20px;
+}

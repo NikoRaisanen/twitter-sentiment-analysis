@@ -1,9 +1,10 @@
 import { Navbar, Nav } from 'react-bootstrap';
+import './TopNav.css'
 
 function TopNav() {
     return(
-        <Navbar bg='dark' variant='dark' fixed='top' expand='sm'>
-            <Navbar.Brand href='/'>Twitter Sentiment Analysis</Navbar.Brand>
+        <Navbar bg='myDark' variant='dark' sticky='top' expand='sm' className='fullNav'>
+            <Navbar.Brand className='navBrand' href='/'>Twitter Sentiment Analysis</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
             <Nav>
