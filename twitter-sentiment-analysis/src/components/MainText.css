@@ -1,0 +1,12 @@
+.columnStyle {
+    padding: 50px;
+}
+
+.columnStyle p {
+    font-size: 30px;
+}
+
+.link {
+    text-decoration: none;
+    color: #0275d8;
+}
