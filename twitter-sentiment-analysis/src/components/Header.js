@@ -1,11 +1,12 @@
 import Button from 'react-bootstrap/Button'
 import './Header.css'
+import gif from '../media/mind-blown-amazed.gif'
 
 function Header() {
     return(
         // Take up full viewport
         <div className='headerContainer'>
-            <div class="h-100 p-5 text-white bg-dark">
+            <div class="h-100 p-5 text-white">
             <div className='headerContent'>
                 <h2 class='title mb-4'>Twitter Sentiment Analysis</h2>
                 <p class='smallText'>Get a pulse for the thoughts of your fellow twitter-using humans</p>

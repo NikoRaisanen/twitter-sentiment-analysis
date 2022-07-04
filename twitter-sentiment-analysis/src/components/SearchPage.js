@@ -5,7 +5,7 @@ import Header from './components/Header';
 import MainText from './components/MainText';
 import gif from './media/mind-blown-amazed.gif';
 
-function App() {
+function SearchPage() {
   return (
     <div className='App'>
       <TopNav />
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default SearchPage;

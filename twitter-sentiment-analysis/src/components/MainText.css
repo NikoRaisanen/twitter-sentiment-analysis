@@ -1,9 +1,10 @@
 .columnStyle {
-    padding: 50px;
+    padding: 100px;
 }
 
 .columnStyle p {
     font-size: 30px;
+    text-align: left;
 }
 
 .link {
