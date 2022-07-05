@@ -9,7 +9,7 @@ function MainText() {
             <Row>
                 <Col md="6" className='columnStyle'>
                 <p>
-                    Perform a search on any word and discover the people of Twitter feel about it.
+                    Perform a search on any word and discover how mthe people of Twitter feel about it.
                     <br />
                     <br />
                     In a world of biased sources, querying the thoughts of everyday people can lead to interesting insights
