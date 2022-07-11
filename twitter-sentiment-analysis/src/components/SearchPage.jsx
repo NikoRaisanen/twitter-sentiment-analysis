@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react';
 import TopNav from './TopNav';
 import ResultGraph from './ResultGraph';
 import {stringifyResult, sentimentToPercentage, createResultGraph} from '../helpers';
+import search from '../media/search-outline.svg';
+import './searchPage.css'
 
 function SearchPage() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,27 +23,36 @@ function SearchPage() {
         setShowResults(true);
     }
 
-    if (showResults) {
-        return(
-            <>
-            <h2>{ JSON.stringify(result) }</h2>
-            <p>{stringifyResult(result.finalSentiment, searchTerm)}</p>
-            <ResultGraph sentiment={sentimentToPercentage(result.finalSentiment)}/>
-            </>
-        )
-    }
     return (
+        <>
         <div className='searchPage'>
         <TopNav />
-        <form onSubmit={handleSubmit}>
+        <div className="search-box">
+            <form onSubmit={handleSubmit}>
+                <input type="text" value={searchTerm} onChange={handleChange} className="search-txt" name="" placeholder=""/>
+                <input type="submit" className="search-btn" value=""/>
+            </form>
+            {/* <input type="image" src={search} name="saveForm" className="search-btn" id="saveForm" /> */}
+            {/* <a href="#" className="search-btn">
+            <img id="search" src={search} />
+            </a> */}
+        </div>
+        {/* <form onSubmit={handleSubmit}>
             <label>
             Search for a word
             </label>
                 <input type="text" value={searchTerm} onChange={handleChange}/>
             <input type="submit" value="Search" />
-        </form>
+        </form> */}
         <h1>Searching for: {searchTerm}</h1>
         </div>
+        {showResults && 
+            <>
+            <ResultGraph sentiment={sentimentToPercentage(result.finalSentiment)}/>
+            <p>{stringifyResult(result.finalSentiment, searchTerm).statement}</p>
+            </>
+        }
+        </>
     );
 }
 

@@ -21,7 +21,10 @@ export const stringifyResult = (score, searchTerm) => {
         keyword = "Neutral";
         statement = `Looks like the people of Twitter are indifferent about "${searchTerm}"...`;
     }
-    return [keyword, statement];
+    return {
+        keyword: keyword,
+        statement: statement
+    };
 }
 
 export const sentimentToPercentage = (score) => {
