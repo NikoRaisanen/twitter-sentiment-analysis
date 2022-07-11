@@ -14,7 +14,7 @@ class ResultGraph extends React.Component {
     componentDidMount() {
         let percent = 0;
       
-        percent = 65;
+        percent = this.props.sentiment;
         this.setState({
             percent, data: this.getData(percent)
         });
@@ -27,7 +27,7 @@ class ResultGraph extends React.Component {
     render() {
       return (
         <div>
-          <svg viewBox="0 0 400 400" width="70%" height="70%">
+          <svg viewBox="0 0 400 400" width="40%" height="40%">
             <VictoryPie
               standalone={false}
               animate={{ duration: 1000}}

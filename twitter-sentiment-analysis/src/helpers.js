@@ -27,7 +27,7 @@ export const stringifyResult = (score, searchTerm) => {
 export const sentimentToPercentage = (score) => {
     var percentage = 0;
     percentage = 0.50 + (score / 2)
-    return percentage;
+    return parseInt(percentage * 100);
 }
 
 export const createResultGraph = (fill, ms) => {

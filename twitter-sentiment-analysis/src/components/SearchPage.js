@@ -26,10 +26,9 @@ function SearchPage() {
             <>
             <h2>{ JSON.stringify(result) }</h2>
             <p>{stringifyResult(result.finalSentiment, searchTerm)}</p>
-            <ResultGraph />
+            <ResultGraph sentiment={sentimentToPercentage(result.finalSentiment)}/>
             </>
         )
-    
     }
     return (
         <div className='searchPage'>
