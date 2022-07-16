@@ -5,6 +5,8 @@ import ResultGraph from './ResultGraph';
 import {stringifyResult, sentimentToPercentage, createResultGraph} from '../helpers';
 import search from '../media/search-outline.svg';
 import './searchPage.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faCoffee, faSearch} from '@fortawesome/free-solid-svg-icons';
 
 function SearchPage() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -27,16 +29,36 @@ function SearchPage() {
         <>
         <div className='searchPage'>
         <TopNav />
-        <div className="search-box">
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={searchTerm} onChange={handleChange} className="search-txt" name="" placeholder=""/>
-                <input type="submit" className="search-btn" value=""/>
+        {/* <div className="search-container">
+            <form onSubmit={handleSubmit} className="search-container">
+                    <input type="text" value={searchTerm} onChange={handleChange} className="search-txt" name="search" id='search-bar'/>
+                    <FontAwesomeIcon icon={faSearch} size='xs' className="search-icon"></FontAwesomeIcon>
+                <button type="submit" className="search-btn" value="">
+                    <span>Search</span>
+                </button>
             </form>
-            {/* <input type="image" src={search} name="saveForm" className="search-btn" id="saveForm" /> */}
-            {/* <a href="#" className="search-btn">
-            <img id="search" src={search} />
-            </a> */}
-        </div>
+         
+        </div> */}
+        <div className="container">
+
+            <div className="row height d-flex justify-content-center align-items-center">
+
+              <div className="col-md-6">
+
+                <form onSubmit={handleSubmit}>
+                {/* <span className='wrapper'> */}
+                <FontAwesomeIcon className='leftIcon' icon={faCoffee}></FontAwesomeIcon>
+                  <input type="text" className="form-control form-input" value={searchTerm} onChange={handleChange} placeholder="Search anything..."/>
+                  <span className="left-pan"><FontAwesomeIcon onClick={handleSubmit} icon={faSearch}></FontAwesomeIcon></span>
+                {/* </span> */}
+                
+                </form>
+                
+              </div>
+              
+            </div>
+            
+          </div>
         {/* <form onSubmit={handleSubmit}>
             <label>
             Search for a word
