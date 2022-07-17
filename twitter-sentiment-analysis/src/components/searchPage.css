@@ -1,28 +1,33 @@
-body{
+body {
   background: #d1d5db;
 }
 
-.height{
-  height: 100vh;
+.search-bar {
+  height: 80vh;
 }
+
+/* .search-bar {
+  padding-top: 80px;
+} */
 
 form {
   position: relative;
 }
 
-form .leftIcon{
+form .leftIcon {
   position: absolute;
   top: 20px;
   left: 20px;
   color: #9ca3af;
 }
 
-form span{
+form span {
   position: absolute;
   right: 17px;
   top: 13px;
   padding: 2px;
   border-left: 1px solid #d1d5db;
+  cursor: pointer;
 }
 
 
@@ -45,6 +50,6 @@ form input{
 
 input {
   box-sizing: border-box;
-  /* padding-left: 20px; */
-  margin-left: 10x;
+  padding-left: 60px !important;
+  padding-right: 70px !important;
 }
