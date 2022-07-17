@@ -53,3 +53,22 @@ input {
   padding-left: 60px !important;
   padding-right: 70px !important;
 }
+
+.resultDiv {
+  padding-bottom: 80px;
+}
+
+@keyframes fadeAway { 
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.myFade {
+  opacity: 0;
+  animation: fadeAway 1s;
+}

@@ -13,30 +13,49 @@ function SearchPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showResults, setShowResults] = useState(false);
     const [result, setResult] = useState({});
-    const useResultRef = useRef(null);
+    const resultDiv = useRef(null);
+    const newSearchButton = useRef(null);
+    const formContainer = useRef(null);
+    const searchText = useRef(null);
+    let staticSearchText;
 
     useEffect(() => {
         console.log('useEffect');
         if (showResults) {
-            scrollTo(useResultRef);
+            scrollTo(resultDiv);
         }
         
-    }, [showResults])
+    }, [result])
 
-    const handleChange = (e) => {
-        setSearchTerm(e.target.value);
-    }
+    // const handleChange = (e) => {
+    //     setSearchTerm(e.target.value);
+    // }
 
 
     const scrollTo = (ref) => {
         ref.current.scrollIntoView({behavior: 'smooth'});
     }
 
+    const handleNewSearch = () => {
+        window.scrollTo(0,0);
+        resultDiv.current.className = resultDiv.current.className+" myFade";
+        setTimeout(() => {
+            setShowResults(false);
+            setResult({});
+            setSearchTerm('');
+        }, 3000);
+        // setShowResults(false);
+        // setResult({});
+        // setSearchTerm('');
+    }
+
 
     const handleSubmit = async (e) => {
         // make api call and return data
+        staticSearchText = searchText.current.value;
+        setSearchTerm(searchText.current.value)
         e.preventDefault();
-        const res = await fetch(`https://92ctge8hl1.execute-api.us-east-2.amazonaws.com/prod/sentiment-analysis?searchTerm=${searchTerm}&searchType=mixed`)
+        const res = await fetch(`https://92ctge8hl1.execute-api.us-east-2.amazonaws.com/prod/sentiment-analysis?searchTerm=${staticSearchText}&searchType=mixed`)
         setResult(await res.json());
         setShowResults(true);
         // setTimeout(() => {
@@ -61,14 +80,14 @@ function SearchPage() {
         </div> */}
         <div className="container">
 
-            <div className="row search-bar d-flex justify-content-center align-items-center">
+            <div ref={formContainer} className="row search-bar d-flex justify-content-center align-items-center">
 
               <div className="col-md-6">
 
                 <form onSubmit={handleSubmit}>
                 {/* <span className='wrapper'> */}
                 <FontAwesomeIcon className='leftIcon' icon={faTwitter}></FontAwesomeIcon>
-                  <input type="text" className="form-control form-input" value={searchTerm} onChange={handleChange} placeholder="Search anything..."/>
+                  <input ref={searchText} type="text" className="form-control form-input" placeholder="Search anything..."/>
                   <span className="left-pan"><FontAwesomeIcon onClick={handleSubmit} icon={faSearch}></FontAwesomeIcon></span>
                 {/* </span> */}
                 
@@ -89,9 +108,10 @@ function SearchPage() {
         {/* <h1>Searching for: {searchTerm}</h1> */}
         </div>
         {showResults && 
-            <div className='resultDiv' ref={useResultRef}>
-            <ResultGraph onShow={() => {console.log('showing')}} sentiment={sentimentToPercentage(result.finalSentiment)}/>
+            <div className='resultDiv' ref={resultDiv}>
+            <ResultGraph sentiment={sentimentToPercentage(result.finalSentiment)}/>
             <p>{stringifyResult(result.finalSentiment, searchTerm).statement}</p>
+            <button type="submit" onClick={handleNewSearch}>Do another search</button>
             </div>
         }
         </>
