@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {VictoryPie, VictoryAnimation, VictoryLabel} from 'victory';
 
 
@@ -7,17 +6,25 @@ class ResultGraph extends React.Component {
     constructor() {
       super();
       this.state = {
-        percent: 0, data: this.getData(0)
+        percent: 0,
+        data: this.getData(0)
       };
     }
   
     componentDidMount() {
-        let percent = 0;
-      
-        percent = this.props.sentiment;
         this.setState({
-            percent, data: this.getData(percent)
+            percent: this.props.sentiment, 
+            data: this.getData(this.props.sentiment)
         });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.sentiment !== prevProps.sentiment) {
+            this.setState({
+                percent: this.props.sentiment,
+                data: this.getData(this.props.sentiment)
+            });
+        }
     }
   
     getData(percent) {

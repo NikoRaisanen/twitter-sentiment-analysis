@@ -1,5 +1,7 @@
 body {
   background: #d1d5db;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 .search-bar {
@@ -58,7 +60,7 @@ input {
   padding-bottom: 80px;
 }
 
-@keyframes fadeAway { 
+@keyframes fadeOut { 
   0% {
     opacity: 1;
   }
@@ -68,7 +70,24 @@ input {
   }
 }
 
-.myFade {
+
+@keyframes fadeIn { 
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.fadeOut {
   opacity: 0;
-  animation: fadeAway 1s;
+  animation: fadeOut 1s;
+}
+
+.fadeIn {
+  opacity: 1;
+  animation: fadeIn 1s;
 }
