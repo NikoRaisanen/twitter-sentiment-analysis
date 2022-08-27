@@ -1,19 +1,70 @@
-# Twitter Sentiment Analysis
-See what the people of twitter think about any topic at [peopleoftwitter.com](https://peopleoftwitter.com/)
+# Getting Started with Create React App
 
-### Search types
-- `recent` -- pull the most recent tweets for the search term
-- `popular` -- pull the most popular tweets from the last 7 days
-- `mixed` -- pull a mix of the most recent and most popular tweets
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Architecture
-![Architecture map](.img/completeSAGraph.png)
+## Available Scripts
 
-### Security
-- [unicode encoded api endpoint](https://github.com/NikoRaisanen/twitter-sentiment-analysis/blob/main/frontend/script.js#L81) to hopefully reduce automated static scanning
-- rate limiting api calls based on source IP with AWS WAF
-- forcing a secure connection to [peopleoftwitter.com](https://peopleoftwitter.com/)
-- javascript `.innerHTML` never used for data that users can modify
+In the project directory, you can run:
 
-I was originally planning to create an edge lambda that would inject security headers to the responses on [peopleoftwitter.com](https://peopleoftwitter.com/) (deployed on my cloudfront distribution). Overall, I decided not to implement it because the both the probability and impact of compromise are very low. I'm excited to get started on new projects so this implementation is low priority for such a low risk personal project 
+### `npm start`
 
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
