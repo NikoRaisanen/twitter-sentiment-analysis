@@ -1,4 +1,5 @@
 import { Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './TopNav.css'
 
 function TopNav() {
@@ -8,9 +9,9 @@ function TopNav() {
         <Navbar.Toggle />
         <Navbar.Collapse>
             <Nav>
-                <Nav.Link href='/'>Usage Statistics</Nav.Link>
-                <Nav.Link href='/'>Recent Searches</Nav.Link>
-                <Nav.Link href='/'>About this project</Nav.Link>
+                <Nav.Link href='/statistics'>Usage Statistics</Nav.Link>
+                <Nav.Link href='/recent-searches'>Recent Searches</Nav.Link>
+                <Nav.Link href='/about'>About this project</Nav.Link>
             </Nav>
         </Navbar.Collapse>
         </Navbar>

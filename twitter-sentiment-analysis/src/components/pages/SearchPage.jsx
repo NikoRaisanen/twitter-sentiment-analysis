@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState, useRef } from 'react';
-import TopNav from './TopNav';
-import ResultGraph from './ResultGraph';
-import { stringifyResult, sentimentToPercentage } from '../helpers';
+import TopNav from '../TopNav';
+import ResultGraph from '../ResultGraph';
+import { stringifyResult, sentimentToPercentage } from '../../helpers';
 import './searchPage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
