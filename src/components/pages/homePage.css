@@ -1,0 +1,23 @@
+body {
+    background: #d1d5db;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.columnStyle {
+    padding: 50px;
+}
+
+.columnStyle p {
+    font-size: 30px;
+    text-align: left;
+}
+
+.link {
+    text-decoration: none;
+    color: #0275d8;
+}
+
+.myContainer p {
+    font-size: 25px;
+}

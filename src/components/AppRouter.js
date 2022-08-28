@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainText from './MainText';
-import Header from './Header';
+import Header from './Jumbotron';
 import SearchPage from '../components/pages/SearchPage';
+import HomePage from './pages/HomePage';
 
 function AppRouter() {
   return (
-    // <div className='App'>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SearchPage/>} />
-            <Route path="main" element={<MainText/>} />
+        <Route path="/" element={<HomePage/>} />
+            <Route path="search" element={<SearchPage/>} />
             <Route path="header" element={<Header/>} />
       </Routes>
     </BrowserRouter>
