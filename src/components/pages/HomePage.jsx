@@ -1,10 +1,12 @@
 import Jumbotron from '../Jumbotron';
-import './homePage.css';
+import './HomePage.css';
 import {Container, Row, Col} from 'react-bootstrap';
+import TopNav from '../TopNav';
 
 function HomePage() {
     return(
         <>
+        <TopNav page='HomePage'/>
         <Jumbotron/>
         <Container className="myContainer">
             <Row>
@@ -22,8 +24,7 @@ function HomePage() {
                     <br />
                     <br />
                     <br />
-                    <a href="https://github.com/NikoRaisanen/twitter-sentiment-analysis/blob/main/README.md" className='link mt-5'>How it works &gt;</a>
-                    <br />
+                    <a href="https://github.com/NikoRaisanen/twitter-sentiment-analysis/blob/main/README.md" className='link mt-5' target={'_blank'}>How it works &gt;</a>
                     <br />
                     <a className='link mt-5' href='/search'>Search now &gt;</a>
                 </p>

@@ -1,11 +1,6 @@
-/* .fullNav {
-    padding-bottom: 100px;
-} */
-
-.navBrand {
-    margin-left: 1%;
+.fullNav {
+    padding-left: 20px;
 }
-
 .bg-myDark {
     background-color: rgba(0, 0, 1, 0.95);
 }

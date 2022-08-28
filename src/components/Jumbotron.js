@@ -10,7 +10,7 @@ function Jumbotron() {
             <div className='headerContent'>
                 <h2 className='title mb-4'>Twitter Sentiment Analysis</h2>
                 <p className='smallText'>Get a pulse for the thoughts of your fellow twitter-using humans</p>
-                <Button className="btn btn-outline-light mt-5" type="button">Get Started</Button>
+                <Button className="btn btn-outline-light mt-5" type="button" href="/search">Get Started</Button>
             </div>
             </div>
             
