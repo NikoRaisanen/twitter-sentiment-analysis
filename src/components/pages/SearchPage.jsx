@@ -13,31 +13,32 @@ function SearchPage() {
     const [showResults, setShowResults] = useState(false);
     const [result, setResult] = useState({});
     const resultDiv = useRef(null);
-    const newSearchButton = useRef(null);
     const formContainer = useRef(null);
     const searchText = useRef(null);
     let staticSearchText;
 
     useEffect(() => {
         console.log('useEffect');
-        if (showResults) {
-            scrollTo(resultDiv);
+        if (!showResults) {
+            formContainer.current.className += ' fadeIn'
+
+            // const transition = resultDiv.current.className.split(' ')[-1];
+
+            // if (transition === 'fadeOut') {
+            //     formContainer.current.className = formContainer.current.className.replace('fadeOut', 'fadeIn'); 
+            // } else if (transition !== 'fadeIn') {
+            //     formContainer.current.className += ' fadeIn';
+            // }
         }
-        
-        
-    }, [result])
-
-
-    const scrollTo = (ref) => {
-        ref.current.scrollIntoView({behavior: 'smooth'});
-    }
+    }, [showResults]);
 
     const handleNewSearch = async (e) => {
         e.preventDefault();
-        window.scrollTo(0,0);
+        // toggleVisibility(formContainer);
+        // window.scrollTo(0,0);
+        // setShowResults(false);
         resultDiv.current.className = resultDiv.current.className+" fadeOut";
-        formContainer.current.className = formContainer.current.className+" fadeIn";
-
+        // formContainer.current.className = formContainer.current.className+" fadeIn";
         setTimeout(() => {
             setShowResults(false);
             setResult({});
@@ -49,12 +50,19 @@ function SearchPage() {
     const handleSubmit = async (e) => {
         // make api call and return data
         e.preventDefault();
+        console.log(`before classchange: ${formContainer.current.className}`);
+        formContainer.current.className = formContainer.current.className.replace('fadeIn', 'fadeOut');
+        console.log(`after classchange: ${formContainer.current.className}`);
         staticSearchText = searchText.current.value;
         setSearchTerm(searchText.current.value)
         const res = await fetch(`https://92ctge8hl1.execute-api.us-east-2.amazonaws.com/prod/sentiment-analysis?searchTerm=${staticSearchText}&searchType=mixed`)
         setResult(await res.json());
-        formContainer.current.className = formContainer.current.className+" fadeOut";
-        setShowResults(true);
+        setTimeout(() => {
+            // toggleVisibility(formContainer);
+            setShowResults(true);
+        }, 500);
+        // setShowResults(true);
+        
     }
 
     return (
@@ -62,8 +70,8 @@ function SearchPage() {
         <div className='searchPage'>
         <TopNav />
         <div className="container">
-
-            <div ref={formContainer} className="row search-bar d-flex justify-content-center align-items-center">
+            { !showResults && 
+            <div ref={formContainer} className="row search-bar d-flex justify-content-center align-items-center start-transparent">
 
               <div className="col-md-6">
 
@@ -77,7 +85,7 @@ function SearchPage() {
               </div>
               
             </div>
-            {/* } */}
+            }
           </div>
         </div>
         {showResults && 

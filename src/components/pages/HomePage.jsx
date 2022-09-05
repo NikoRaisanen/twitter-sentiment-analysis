@@ -1,6 +1,6 @@
 import Jumbotron from '../Jumbotron';
 import './HomePage.css';
-import {Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import TopNav from '../TopNav';
 
 function HomePage() {

@@ -1,5 +1,5 @@
 .main {
-    /* height: 50%; */
+    /* height: 80%; */
     background-image: linear-gradient(
         rgba(0, 0, 0, 1), 
         rgba(0, 0, 0, 0.5)
@@ -22,8 +22,3 @@
 .smallText {
     font-size: 20px;
 }
-
-/* img {
-    height: 100%;
-    object-fit: contain;
-} */
